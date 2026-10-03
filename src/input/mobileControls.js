@@ -174,7 +174,7 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   const compactPanel =
     panel === 'play-map'
     || panel === 'play-harbor'
-    || panel === 'play-attack'
+    || panel.startsWith('play-attack')
     || panel === 'play-city-amount'
     || panel === 'play-city-sell';
   ui.classList.toggle('compact-deck', compactPanel);
@@ -211,12 +211,7 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
 
   const hint = document.getElementById('mobile-hint');
   if (hint) {
-    if (
-      panel === 'play-map'
-      || panel === 'play-harbor'
-      || panel === 'play-attack'
-      || panel.startsWith('play-city')
-    ) {
+    if (panel === 'play-map' || panel === 'play-harbor' || panel.startsWith('play-attack') || panel.startsWith('play-city')) {
       hint.classList.remove('visible');
     } else if (!hint.dataset.dismissed && layout.caption) {
       hint.textContent = layout.caption;

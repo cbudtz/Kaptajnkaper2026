@@ -59,28 +59,54 @@ export const MOBILE_LAYOUTS = {
       [{ key: ' ', label: 'Fortsæt' }],
     ],
   },
-  'play-attack': {
-    caption: 'Angrib eller flygt — brug tal under kanonkamp',
+  'play-attack-initial': {
     rows: [
       [
-        { key: 'a', label: 'Angrib', primary: true },
-        { key: 'f', label: 'Flygt', primary: true },
-      ],
-      [
-        { key: '1', label: '1' },
-        { key: '2', label: '2' },
-        { key: '3', label: '3' },
-        { key: '4', label: '4' },
-        { key: '5', label: '5' },
-        { key: '6', label: '6' },
-      ],
-      [
-        { key: 'Enter', label: 'Enter' },
-        { key: 'Escape', label: 'Esc' },
-        { key: 'j', label: 'Ja' },
-        { key: 'n', label: 'Nej' },
+        { key: 'a', label: 'Angrib (a)', primary: true },
+        { key: 'f', label: 'Flygt (f)', primary: true },
       ],
     ],
+  },
+  'play-attack-tactic': {
+    rows: [
+      [
+        { key: 'b', label: 'Bordér (b)', primary: true },
+        { key: 's', label: 'Skyd (s)', primary: true },
+      ],
+    ],
+  },
+  'play-attack-shoot': {
+    toolbar: [
+      { key: 'f', label: 'Ild!' },
+      { key: '0', label: 'Tilbage' },
+    ],
+    dpad: [
+      ['7', '8', '9'],
+      ['4', '2', '6'],
+      ['1', null, '3'],
+    ],
+  },
+  'play-attack-board': {
+    rows: [
+      [
+        { key: 'k', label: 'Kæmp (k)', primary: true },
+        { key: 't', label: 'Træk (t)', primary: true },
+      ],
+    ],
+  },
+  'play-attack-wait': {
+    rows: [[{ key: ' ', label: '…', primary: true }]],
+  },
+  'play-attack-surrender': {
+    rows: [
+      [
+        { key: 'p', label: 'Prise (p)', primary: true },
+        { key: 's', label: 'Sænk (s)', primary: true },
+      ],
+    ],
+  },
+  'play-attack-continue': {
+    rows: [[{ key: ' ', label: 'Fortsæt', primary: true }]],
   },
   'play-city': {
     caption: 'By — vælg handling (1–6)',
@@ -162,6 +188,69 @@ const DPAD_LABELS = {
 
 /** @param {string} panelId */
 export function resolveMobileLayout(panelId) {
+  if (panelId === 'play-attack-initial') {
+    const a = getLabelText('AttackY').charAt(0);
+    const f = getLabelText('AttackN').charAt(0);
+    return {
+      rows: [
+        [
+          { key: a, label: `Angrib (${a})`, primary: true },
+          { key: f, label: `Flygt (${f})`, primary: true },
+        ],
+      ],
+    };
+  }
+  if (panelId === 'play-attack-tactic') {
+    const b = getLabelText('AttackTypeB').charAt(0);
+    const s = getLabelText('AttackTypeS').charAt(0);
+    return {
+      rows: [
+        [
+          { key: b, label: `Bordér (${b})`, primary: true },
+          { key: s, label: `Skyd (${s})`, primary: true },
+        ],
+      ],
+    };
+  }
+  if (panelId === 'play-attack-shoot') {
+    const fire = getLabelText('ShootTypeF').charAt(0);
+    const withdraw = getLabelText('ShootTypeW').charAt(0);
+    return {
+      toolbar: [
+        { key: fire, label: 'Ild!' },
+        { key: withdraw, label: 'Tilbage' },
+      ],
+      dpad: [
+        ['7', '8', '9'],
+        ['4', '2', '6'],
+        ['1', null, '3'],
+      ],
+    };
+  }
+  if (panelId === 'play-attack-board') {
+    const fight = getLabelText('BoardTypeF').charAt(0);
+    const withdraw = getLabelText('BoardTypeW').charAt(0);
+    return {
+      rows: [
+        [
+          { key: fight, label: `Kæmp (${fight})`, primary: true },
+          { key: withdraw, label: `Træk (${withdraw})`, primary: true },
+        ],
+      ],
+    };
+  }
+  if (panelId === 'play-attack-surrender') {
+    const prize = getLabelText('AttackSurrenderP').charAt(0);
+    const sink = getLabelText('AttackSurrenderS').charAt(0);
+    return {
+      rows: [
+        [
+          { key: prize, label: `Prise (${prize})`, primary: true },
+          { key: sink, label: `Sænk (${sink})`, primary: true },
+        ],
+      ],
+    };
+  }
   if (panelId === 'play-city-sell') {
     const cannons = getLabelText('CitySellC').charAt(0);
     const grain = getLabelText('CitySellG').charAt(0);

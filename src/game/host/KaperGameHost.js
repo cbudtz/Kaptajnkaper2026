@@ -15,6 +15,7 @@ import {
 } from '../audio/soundState.js';
 import { playSound } from '../audio/playSound.js';
 import { getCityMobileMode } from '../../input/cityMobileMode.js';
+import { getAttackMobileMode } from '../../input/attackMobileMode.js';
 
 export class KaperGameHost {
   constructor() {
@@ -55,6 +56,10 @@ export class KaperGameHost {
       action: this.currentAction,
       cityMode:
         this.currentAction === GameAction.CITY ? getCityMobileMode(this.city) : undefined,
+      attackMode:
+        this.currentAction === GameAction.ATTACK
+          ? getAttackMobileMode(this.attack)
+          : undefined,
     };
   }
 

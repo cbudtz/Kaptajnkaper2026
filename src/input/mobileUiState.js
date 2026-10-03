@@ -1,6 +1,6 @@
 import { GameStep, GameAction } from '../game/constants/enums.js';
 
-/** @typedef {{ step: number, action: number, cityMode?: string }} GameUiState */
+/** @typedef {{ step: number, action: number, cityMode?: string, attackMode?: string }} GameUiState */
 
 /**
  * Which mobile control panel to show for the current game state.
@@ -30,7 +30,25 @@ export function getMobilePanelForState(state) {
           return 'play-city';
       }
     }
-    if (action === GameAction.ATTACK) return 'play-attack';
+    if (action === GameAction.ATTACK) {
+      switch (state.attackMode) {
+        case 'tactic':
+          return 'play-attack-tactic';
+        case 'shoot':
+          return 'play-attack-shoot';
+        case 'board':
+          return 'play-attack-board';
+        case 'surrender':
+          return 'play-attack-surrender';
+        case 'won':
+        case 'continue':
+          return 'play-attack-continue';
+        case 'wait':
+          return 'play-attack-wait';
+        default:
+          return 'play-attack-initial';
+      }
+    }
     return 'play-menu';
   }
 
