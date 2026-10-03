@@ -3,6 +3,7 @@ import {
   BoardState,
   CauseOfDeath,
   CgaMode,
+  EnemyState,
 } from '../constants/enums.js';
 import { TextureKey } from '../constants/textureKeys.js';
 import { playSound } from '../audio/playSound.js';
@@ -125,7 +126,15 @@ export class BoardSystem {
     } else {
       this.host.animationRepaint = false;
       this.currentEnemy.checkEnemyStatus();
-      this.host.repaint();
+      if (
+        this.currentAttack.getCurrentAttack() === AttackType.BOARD
+        && this.currentEnemy.getCurrentState() === EnemyState.GOOD
+        && this.currentEnemy.getMen() < 20
+      ) {
+        this.currentEnemy.currentState = EnemyState.SURRENDER;
+        this.currentAttack.setCurrentAttack(AttackType.WON_SURRENDER);
+      }
+      this.host.markDirty();
     }
   }
 

@@ -55,11 +55,11 @@ export const AttackOutcome = Object.freeze({
   WON: 1,
 });
 
-/** @see enemy.stateType in legacy/enemy.js (values preserved from JS port) */
+/** @see enemy.stateType in legacy/enemy.js (distinct values required for checkEnemyStatus) */
 export const EnemyState = Object.freeze({
   GOOD: 0,
-  SURRENDER: 0,
-  SUNK: 0,
+  SURRENDER: 1,
+  SUNK: 2,
 });
 
 /** @see shoot.stateType in legacy/shoot.js */
