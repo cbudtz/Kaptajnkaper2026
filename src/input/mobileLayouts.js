@@ -1,3 +1,5 @@
+import { getLabelText } from '../game/text/getLabelText.js';
+
 /** @typedef {{ key: string, label: string, repeat?: boolean, primary?: boolean }} MobileButton */
 
 /** @typedef {{ caption?: string, rows?: MobileButton[][], toolbar?: MobileButton[], dpad?: (string|null)[][] }} MobileLayout */
@@ -81,7 +83,7 @@ export const MOBILE_LAYOUTS = {
     ],
   },
   'play-city': {
-    caption: 'By — vælg handling',
+    caption: 'By — vælg handling (1–6)',
     rows: [
       [
         { key: '1', label: '1' },
@@ -91,14 +93,35 @@ export const MOBILE_LAYOUTS = {
         { key: '5', label: '5' },
         { key: '6', label: '6' },
       ],
+      [{ key: 'F1', label: 'F1 Hjælp' }],
+    ],
+  },
+  'play-city-amount': {
+    caption: 'Indtast antal (0–9) og tryk OK',
+    rows: [
       [
-        { key: 'F1', label: 'Hjælp' },
-        { key: 'Enter', label: 'Enter' },
-        { key: 'Escape', label: 'Esc' },
-        { key: 'j', label: 'Ja' },
-        { key: 'n', label: 'Nej' },
+        { key: '1', label: '1' },
+        { key: '2', label: '2' },
+        { key: '3', label: '3' },
+        { key: '4', label: '4' },
+        { key: '5', label: '5' },
+      ],
+      [
+        { key: '6', label: '6' },
+        { key: '7', label: '7' },
+        { key: '8', label: '8' },
+        { key: '9', label: '9' },
+        { key: '0', label: '0' },
+      ],
+      [
+        { key: 'Backspace', label: 'Slet' },
+        { key: 'Enter', label: 'OK', primary: true },
       ],
     ],
+  },
+  'play-city-error': {
+    caption: 'Fejl — tryk Fortsæt',
+    rows: [[{ key: ' ', label: 'Fortsæt', primary: true }]],
   },
   'play-menu': {
     caption: 'Vælg med tal 1–6',
@@ -136,6 +159,27 @@ const DPAD_LABELS = {
   '8': '↑',
   '9': '↗',
 };
+
+/** @param {string} panelId */
+export function resolveMobileLayout(panelId) {
+  if (panelId === 'play-city-sell') {
+    const cannons = getLabelText('CitySellC').charAt(0);
+    const grain = getLabelText('CitySellG').charAt(0);
+    const jewels = getLabelText('CitySellJ').charAt(0);
+    return {
+      caption: 'Vælg hvad du vil sælge',
+      rows: [
+        [
+          { key: cannons, label: `Kanoner (${cannons})` },
+          { key: grain, label: `Korn (${grain})` },
+          { key: jewels, label: `Juveler (${jewels})` },
+        ],
+        [{ key: 'F1', label: 'F1 Hjælp' }],
+      ],
+    };
+  }
+  return MOBILE_LAYOUTS[panelId] ?? MOBILE_LAYOUTS.end;
+}
 
 /**
  * @param {MobileLayout} layout

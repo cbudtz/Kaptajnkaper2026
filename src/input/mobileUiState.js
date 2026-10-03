@@ -1,6 +1,6 @@
 import { GameStep, GameAction } from '../game/constants/enums.js';
 
-/** @typedef {{ step: number, action: number }} GameUiState */
+/** @typedef {{ step: number, action: number, cityMode?: string }} GameUiState */
 
 /**
  * Which mobile control panel to show for the current game state.
@@ -18,7 +18,18 @@ export function getMobilePanelForState(state) {
   if (step === GameStep.GAME_PLAYING) {
     if (action === GameAction.MAP) return 'play-map';
     if (action === GameAction.HARBOR) return 'play-harbor';
-    if (action === GameAction.CITY) return 'play-city';
+    if (action === GameAction.CITY) {
+      switch (state.cityMode) {
+        case 'amount':
+          return 'play-city-amount';
+        case 'sell':
+          return 'play-city-sell';
+        case 'error':
+          return 'play-city-error';
+        default:
+          return 'play-city';
+      }
+    }
     if (action === GameAction.ATTACK) return 'play-attack';
     return 'play-menu';
   }

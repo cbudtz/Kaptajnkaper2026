@@ -16,8 +16,8 @@ export class CitySystem {
     this.pResources = [0, 0, 0, 0, 0];
     this.pStandard = [10, 8, 100, 5, 50];
     this.currentActionChar = undefined;
-    this.currentBuySellAmount = undefined;
-    this.currentBuySellError = undefined;
+    this.currentBuySellAmount = '';
+    this.currentBuySellError = '';
     this.currentAction = undefined;
   }
 
@@ -88,22 +88,32 @@ export class CitySystem {
         case '1':
           this.currentActionChar = 1;
           this.currentAction = CitySystem.actionType.BUY;
+          this.currentBuySellAmount = '';
+          this.currentBuySellError = '';
           break;
         case '2':
           this.currentActionChar = 2;
           this.currentAction = CitySystem.actionType.BUY;
+          this.currentBuySellAmount = '';
+          this.currentBuySellError = '';
           break;
         case '3':
           this.currentActionChar = 3;
           this.currentAction = CitySystem.actionType.BUY;
+          this.currentBuySellAmount = '';
+          this.currentBuySellError = '';
           break;
         case '4':
           this.currentActionChar = 4;
           this.currentAction = CitySystem.actionType.BUY;
+          this.currentBuySellAmount = '';
+          this.currentBuySellError = '';
           break;
         case '5':
           this.currentActionChar = 5;
           this.currentAction = CitySystem.actionType.SELL_1;
+          this.currentBuySellAmount = '';
+          this.currentBuySellError = '';
           break;
         case '6':
           this.host.setCurrentAction(GameAction.MAP);
@@ -116,7 +126,7 @@ export class CitySystem {
     } else if ((this.currentAction === CitySystem.actionType.BUY
       || this.currentAction === CitySystem.actionType.SELL_2)
       && this.currentBuySellError.length === 0) {
-      if (c >= 0 && c <= 9 && this.currentBuySellAmount.length < 4) {
+      if (c.length === 1 && c >= '0' && c <= '9' && this.currentBuySellAmount.length < 4) {
         this.currentBuySellAmount += c;
       } else if (c === 'Backspace') {
         if (this.currentBuySellAmount.length > 0) {
@@ -140,12 +150,18 @@ export class CitySystem {
       if (c === cannons) {
         this.currentActionChar = 3;
         this.currentAction = CitySystem.actionType.SELL_2;
+        this.currentBuySellAmount = '';
+        this.currentBuySellError = '';
       } else if (c === grain) {
         this.currentActionChar = 4;
         this.currentAction = CitySystem.actionType.SELL_2;
+        this.currentBuySellAmount = '';
+        this.currentBuySellError = '';
       } else if (c === jewels) {
         this.currentActionChar = 5;
         this.currentAction = CitySystem.actionType.SELL_2;
+        this.currentBuySellAmount = '';
+        this.currentBuySellError = '';
       } else {
         playSound('beep');
       }

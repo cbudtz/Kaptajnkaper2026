@@ -1,5 +1,5 @@
 import { getMobilePanelForState } from './mobileUiState.js';
-import { MOBILE_LAYOUTS, renderMobileDeck } from './mobileLayouts.js';
+import { renderMobileDeck, resolveMobileLayout } from './mobileLayouts.js';
 import { bindMobileViewportHandlers, resetMobileViewportZoom } from './mobileViewport.js';
 import { computeMobileLayout } from './mobileLayout.js';
 
@@ -172,9 +172,13 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
 
   const panel = getMobilePanelForState(getState());
   const compactPanel =
-    panel === 'play-map' || panel === 'play-harbor' || panel === 'play-attack';
+    panel === 'play-map'
+    || panel === 'play-harbor'
+    || panel === 'play-attack'
+    || panel === 'play-city-amount'
+    || panel === 'play-city-sell';
   ui.classList.toggle('compact-deck', compactPanel);
-  const layout = MOBILE_LAYOUTS[panel] ?? MOBILE_LAYOUTS.end;
+  const layout = resolveMobileLayout(panel);
 
   if (panel !== lastUiPanel) {
     renderMobileDeck(layout, deck);
@@ -207,7 +211,12 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
 
   const hint = document.getElementById('mobile-hint');
   if (hint) {
-    if (panel === 'play-map' || panel === 'play-harbor' || panel === 'play-attack') {
+    if (
+      panel === 'play-map'
+      || panel === 'play-harbor'
+      || panel === 'play-attack'
+      || panel.startsWith('play-city')
+    ) {
       hint.classList.remove('visible');
     } else if (!hint.dataset.dismissed && layout.caption) {
       hint.textContent = layout.caption;

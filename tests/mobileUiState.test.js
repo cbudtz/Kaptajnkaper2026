@@ -24,6 +24,13 @@ describe('getMobilePanelForState', () => {
       getMobilePanelForState({ step: GameStep.GAME_PLAYING, action: GameAction.CITY }),
     ).toBe('play-city');
     expect(
+      getMobilePanelForState({
+        step: GameStep.GAME_PLAYING,
+        action: GameAction.CITY,
+        cityMode: 'amount',
+      }),
+    ).toBe('play-city-amount');
+    expect(
       getMobilePanelForState({ step: GameStep.GAME_PLAYING, action: GameAction.PROMOTE }),
     ).toBe('play-menu');
   });

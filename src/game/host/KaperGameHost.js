@@ -14,6 +14,7 @@ import {
   toggleGameSound,
 } from '../audio/soundState.js';
 import { playSound } from '../audio/playSound.js';
+import { getCityMobileMode } from '../../input/cityMobileMode.js';
 
 export class KaperGameHost {
   constructor() {
@@ -46,6 +47,15 @@ export class KaperGameHost {
 
   getCurrentAction() {
     return this.currentAction;
+  }
+
+  getMobileUiState() {
+    return {
+      step: this.currentStep,
+      action: this.currentAction,
+      cityMode:
+        this.currentAction === GameAction.CITY ? getCityMobileMode(this.city) : undefined,
+    };
   }
 
   setCurrentAction(action) {

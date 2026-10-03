@@ -42,10 +42,7 @@ export default class GameScene extends Phaser.Scene {
       },
     };
 
-    const getState = () => ({
-      step: this.host.currentStep,
-      action: this.host.currentAction,
-    });
+    const getState = () => this.host.getMobileUiState();
 
     const onKey = (event) => {
       ensureGameAudioUnlocked();
@@ -73,7 +70,7 @@ export default class GameScene extends Phaser.Scene {
         if (this.host.needsRender) {
           this.host.render(this.view);
           refreshMobileUi(
-            () => ({ step: this.host.currentStep, action: this.host.currentAction }),
+            () => this.host.getMobileUiState(),
             {
               getPlayerName: () => this.host.getCurrentPlayer().getName(),
               setPlayerName: (n) => this.host.getCurrentPlayer().setName(n),
