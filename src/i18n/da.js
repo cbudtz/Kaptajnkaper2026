@@ -13,8 +13,9 @@
 
     You should have received a copy of the GNU General Public License
     along with Privateer.  If not, see <http://www.gnu.org/licenses/>.
-import { lang } from "./lang.js";
 */
+import { lang } from './lang.js';
+
 lang.da = {
     QuestionY: "j",
     QuestionN: "n",

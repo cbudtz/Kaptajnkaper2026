@@ -6,6 +6,7 @@ import {
 } from '../constants/enums.js';
 import { TextureKey } from '../constants/textureKeys.js';
 import { playSound } from '../audio/playSound.js';
+import { getLabelText } from '../text/getLabelText.js';
 
 /**
  * Boarding combat (ported from legacy/board.js).
@@ -19,7 +20,6 @@ export class BoardSystem {
   constructor(host, enemy, attack) {
     this.host = host;
     this.currentPlayer = host.getCurrentPlayer();
-    this.font = host.getCGAFont();
 
     this.currentEnemy = enemy;
     this.currentAttack = attack;
@@ -73,10 +73,10 @@ export class BoardSystem {
       view.drawLabel('Boarding1', 0, 128);
       let enemyName = this.currentEnemy.getName();
       if (this.currentEnemy.getEnemyType() !== 7) {
-        enemyName = this.font.getResourceAsString('BoardingEnemyName1')
+        enemyName = getLabelText('BoardingEnemyName1')
           + enemyName.substring(enemyName.indexOf(' '));
       } else {
-        enemyName = this.font.getResourceAsString('BoardingEnemyName2');
+        enemyName = getLabelText('BoardingEnemyName2');
       }
       view.drawLabel('Boarding2', 0, 144, enemyName);
       view.drawLabel('Boarding3', 0, 160, this.enemyMenLostShow);
@@ -93,8 +93,8 @@ export class BoardSystem {
 
   keyEvent(c) {
     if (this.currentState === BoardState.BOARDING) {
-      const fight = this.font.getResourceAsString('BoardTypeF').charAt(0);
-      const withdraw = this.font.getResourceAsString('BoardTypeW').charAt(0);
+      const fight = getLabelText('BoardTypeF').charAt(0);
+      const withdraw = getLabelText('BoardTypeW').charAt(0);
 
       if (c.toLowerCase() === fight) {
         this.boardEnemy();

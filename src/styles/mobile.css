@@ -1,0 +1,148 @@
+/* Touch / phone layout — game canvas sits above controls (not covered). */
+
+#app-shell {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000028;
+  overflow: hidden;
+}
+
+#game-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  position: relative;
+  touch-action: none;
+}
+
+#game-container canvas {
+  display: block;
+  touch-action: none;
+  margin: 0 auto;
+}
+
+#mobile-ui {
+  display: none;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 8px max(10px, env(safe-area-inset-bottom));
+  padding-left: max(8px, env(safe-area-inset-left));
+  padding-right: max(8px, env(safe-area-inset-right));
+  background: linear-gradient(180deg, rgba(0, 0, 40, 0.95), #000028);
+  border-top: 2px solid #5555ff;
+  font-family: system-ui, -apple-system, sans-serif;
+  z-index: 30;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  #mobile-ui {
+    display: flex;
+  }
+}
+
+#mobile-hint {
+  display: none;
+  position: absolute;
+  top: max(8px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  max-width: 92%;
+  color: #cce;
+  font-size: 13px;
+  text-align: center;
+  padding: 6px 12px;
+  background: rgba(0, 0, 40, 0.75);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  #mobile-hint.visible {
+    display: block;
+  }
+}
+
+.mobile-panel {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-panel.active {
+  display: flex;
+}
+
+.mobile-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-btn {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 2px solid #8888ff;
+  border-radius: 10px;
+  background: #0000a8;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  touch-action: manipulation;
+}
+
+.mobile-btn:active {
+  background: #0000d0;
+  transform: scale(0.97);
+}
+
+.mobile-btn.wide {
+  flex: 1 1 40%;
+  max-width: 48%;
+}
+
+.mobile-btn.dpad {
+  min-width: 56px;
+  font-size: 20px;
+}
+
+#mobile-name-wrap {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+#mobile-name-wrap.active {
+  display: flex;
+}
+
+#mobile-name-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 48px;
+  font-size: 18px;
+  padding: 10px 12px;
+  border: 2px solid #8888ff;
+  border-radius: 10px;
+  background: #000028;
+  color: #fff;
+}
+
+#mobile-name-input:focus {
+  outline: 2px solid #aaf;
+}
+
+.mobile-label {
+  color: #aac;
+  font-size: 13px;
+  text-align: center;
+}

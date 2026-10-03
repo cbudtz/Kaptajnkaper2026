@@ -2,7 +2,14 @@
 <html lang="da">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#000028" />
     <title>Kaptajn Kaper i Kattegat</title>
     <meta
       name="description"
@@ -10,23 +17,133 @@
     />
     <link rel="icon" type="image/png" href="./favicon.png" />
     <style>
-      html,
+      html {
+        height: 100%;
+        height: -webkit-fill-available;
+      }
       body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        min-height: -webkit-fill-available;
         background: #000028;
         overflow: hidden;
-      }
-      #game-container {
-        width: 100%;
-        height: 100%;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
       }
     </style>
-    <script type="module" crossorigin src="./assets/index-D2lNijTB.js"></script>
+    <script type="module" crossorigin src="./assets/index-BcQ25cml.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BzM84Tut.css">
   </head>
   <body>
-    <div id="game-container"></div>
+    <div id="app-shell">
+      <div id="mobile-hint" class="visible"></div>
+      <div id="game-container"></div>
+
+      <div id="mobile-ui" aria-label="Spilkontroller">
+        <div class="mobile-panel" data-panel="intro">
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide" data-key=" ">Fortsæt</button>
+            <button type="button" class="mobile-btn" data-key="e">Engelsk</button>
+            <button type="button" class="mobile-btn" data-key="c">Slet rekord</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="sound">
+          <p class="mobile-label">Lyd ved start (som DOS-spillet)</p>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide" data-key="0">0 — Stilhed</button>
+            <button type="button" class="mobile-btn wide" data-key="1">1 — Lydeffekter</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="F2">F2 skift lyd</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="name">
+          <div id="mobile-name-wrap" class="active">
+            <label class="mobile-label" for="mobile-name-input">Kaptajnens navn</label>
+            <input
+              id="mobile-name-input"
+              type="text"
+              autocomplete="nickname"
+              enterkeyhint="done"
+              maxlength="20"
+              placeholder="Dit navn"
+            />
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="Backspace">Slet</button>
+            <button type="button" class="mobile-btn wide" data-key="Enter">OK — start</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="title">
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide" data-key=" ">Fortsæt</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="play-map">
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="F1">F1 Hjælp</button>
+            <button type="button" class="mobile-btn" data-key="F2">F2 Lyd</button>
+            <button type="button" class="mobile-btn" data-key="Escape">Afslut</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn dpad repeat" data-key="7">↖</button>
+            <button type="button" class="mobile-btn dpad repeat" data-key="8">↑</button>
+            <button type="button" class="mobile-btn dpad repeat" data-key="9">↗</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn dpad repeat" data-key="4">←</button>
+            <button type="button" class="mobile-btn dpad repeat" data-key="2">↓</button>
+            <button type="button" class="mobile-btn dpad repeat" data-key="6">→</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn dpad repeat" data-key="1">↙</button>
+            <button type="button" class="mobile-btn dpad repeat" data-key="3">↘</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="play-harbor">
+          <p class="mobile-label">Styr ind i havnen</p>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide repeat" data-key="4">← Venstre</button>
+            <button type="button" class="mobile-btn wide repeat" data-key="6">Højre →</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key=" ">Fortsæt</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="play-menu">
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="1">1</button>
+            <button type="button" class="mobile-btn" data-key="2">2</button>
+            <button type="button" class="mobile-btn" data-key="3">3</button>
+            <button type="button" class="mobile-btn" data-key="4">4</button>
+            <button type="button" class="mobile-btn" data-key="5">5</button>
+            <button type="button" class="mobile-btn" data-key="6">6</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="F1">Hjælp</button>
+            <button type="button" class="mobile-btn" data-key="Enter">Enter</button>
+            <button type="button" class="mobile-btn" data-key="Escape">Esc</button>
+            <button type="button" class="mobile-btn" data-key="j">Ja</button>
+            <button type="button" class="mobile-btn" data-key="n">Nej</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="end">
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide" data-key=" ">Fortsæt</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

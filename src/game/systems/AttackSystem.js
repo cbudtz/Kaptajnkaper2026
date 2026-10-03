@@ -6,6 +6,7 @@ import {
   GameAction,
 } from '../constants/enums.js';
 import { playSound } from '../audio/playSound.js';
+import { getLabelText } from '../text/getLabelText.js';
 import { EnemyModel } from './EnemyModel.js';
 import { ShootSystem } from './ShootSystem.js';
 import { BoardSystem } from './BoardSystem.js';
@@ -22,7 +23,6 @@ export class AttackSystem {
 
     this.host = host;
     this.currentPlayer = host.getCurrentPlayer();
-    this.font = host.getCGAFont();
 
     this.currentEnemy = new EnemyModel(this.host, this);
     this.currentAttack = AttackType.NONE;
@@ -122,8 +122,8 @@ export class AttackSystem {
     switch (this.currentAttack) {
       case AttackType.NONE:
       case AttackType.WITHDRAW: {
-        const a = this.font.getResourceAsString('AttackY').charAt(0);
-        const flee = this.font.getResourceAsString('AttackN').charAt(0);
+        const a = getLabelText('AttackY').charAt(0);
+        const flee = getLabelText('AttackN').charAt(0);
 
         if (this.currentAttack === AttackType.NONE) {
           this.currentPlayer.addToExperience();
@@ -141,8 +141,8 @@ export class AttackSystem {
       }
 
       case AttackType.ATTACK: {
-        const board = this.font.getResourceAsString('AttackTypeB').charAt(0);
-        const shoot = this.font.getResourceAsString('AttackTypeS').charAt(0);
+        const board = getLabelText('AttackTypeB').charAt(0);
+        const shoot = getLabelText('AttackTypeS').charAt(0);
 
         if (c.toLowerCase() === board) {
           this.currentAttack = AttackType.BOARD;
@@ -173,8 +173,8 @@ export class AttackSystem {
         break;
 
       case AttackType.WON_SURRENDER: {
-        const prize = this.font.getResourceAsString('AttackSurrenderP').charAt(0);
-        const sink = this.font.getResourceAsString('AttackSurrenderS').charAt(0);
+        const prize = getLabelText('AttackSurrenderP').charAt(0);
+        const sink = getLabelText('AttackSurrenderS').charAt(0);
 
         this.host.getMap().setCurrentMapDataValue(50);
 
