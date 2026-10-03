@@ -1,5 +1,5 @@
 import { GameAction, CgaMode } from '../constants/enums.js';
-import { playSound } from '../../audio/GameAudio.js';
+import { playSound } from '../audio/playSound.js';
 import { getLabelText } from '../text/getLabelText.js';
 
 export class MistSystem {
