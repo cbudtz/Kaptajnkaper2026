@@ -48,14 +48,25 @@ npm run build
 npm run preview
 ```
 
-## Docker
+## Deploy on CapRover
+
+Appen er en statisk Phaser-build bag **nginx** i `Dockerfile` (container lytter på **port 80**).
+
+1. Opret en ny app i CapRover (fx `kaper`).
+2. **Deployment method:** deploy via **GitHub** (eller upload af repo) med **Dockerfile** i roden.
+3. **`captain-definition`** peger allerede på `./Dockerfile` — CapRover bygger automatisk.
+4. Under app-indstillinger: sæt **Container HTTP Port** til **80** (nginx).
+5. Aktivér **HTTPS** / domæne som du plejer på CapRover.
+6. **Force HTTPS** og **Websocket** er ikke påkrævet (ren statisk SPA).
+
+Lokal test af samme image som CapRover:
 
 ```bash
 docker build -t kaptajnkaper2026 .
 docker run --rm -p 8080:80 kaptajnkaper2026
 ```
 
-Open http://localhost:8080
+Åbn http://localhost:8080
 
 ## License
 
