@@ -41,6 +41,14 @@ Spillet er oprindeligt tastatur-baseret. På touch-enheder:
 - I havn/by/kamp: **4/6**, tal **1–6**, **Ja/Nej**, F1/F2/Esc.
 - Gen-deploy på CapRover efter opdateringer.
 
+## Tests
+
+```bash
+npm test          # unit (Vitest) + mobil e2e (Playwright)
+npm run test:watch
+npm run test:e2e  # kun browser-smoke (390×844)
+```
+
 ## Development
 
 ```bash
