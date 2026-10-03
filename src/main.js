@@ -6,6 +6,10 @@ import { GAME_WIDTH, GAME_HEIGHT } from './config/assets.js';
 import './i18n/index.js';
 import './styles/mobile.css';
 
+if ('ontouchstart' in globalThis || navigator.maxTouchPoints > 0) {
+  document.documentElement.classList.add('touch-device');
+}
+
 const config = {
   type: Phaser.AUTO,
   parent: 'game-container',

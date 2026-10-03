@@ -17,7 +17,9 @@ export function getMobilePanelForState(state) {
 
   if (step === GameStep.GAME_PLAYING) {
     if (action === GameAction.MAP) return 'play-map';
-    if (action === GameAction.HARBOR || action === GameAction.CITY) return 'play-harbor';
+    if (action === GameAction.HARBOR) return 'play-harbor';
+    if (action === GameAction.CITY) return 'play-city';
+    if (action === GameAction.ATTACK) return 'play-attack';
     return 'play-menu';
   }
 

@@ -92,7 +92,9 @@ export function syncMobileUi(getState, nameWrap, nameInput, playerBridge) {
 
   const panel = getMobilePanelForState(getState());
   ui.querySelectorAll('.mobile-panel').forEach((el) => {
-    el.classList.toggle('active', el.dataset.panel === panel);
+    const isActive = el.dataset.panel === panel;
+    el.classList.toggle('active', isActive);
+    el.hidden = !isActive;
   });
 
   const onName = panel === 'name';
@@ -115,6 +117,8 @@ export function syncMobileUi(getState, nameWrap, nameInput, playerBridge) {
       title: 'Tryk Fortsæt for at gå videre',
       'play-map': 'Brug pilene til at sejle — F1 hjælp, F2 lyd',
       'play-harbor': 'Venstre/højre (4/6) i havnen',
+      'play-attack': 'Angrib (a) eller flygt (f) — tal under kanonkamp',
+      'play-city': 'Vælg by-handling med 1–6',
       'play-menu': 'Tal 1–6 eller Enter / Esc som i spillet',
       end: 'Tryk Fortsæt',
     };

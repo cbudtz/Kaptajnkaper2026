@@ -34,6 +34,28 @@
         overscroll-behavior: none;
         -webkit-tap-highlight-color: transparent;
       }
+      #app-shell {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        background: #000028;
+        overflow: hidden;
+      }
+      #game-container {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+      }
+      #mobile-ui .mobile-panel {
+        display: none !important;
+      }
+      #mobile-ui .mobile-panel.active {
+        display: flex !important;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
     </style>
   </head>
   <body>
@@ -115,6 +137,47 @@
           </div>
           <div class="mobile-row">
             <button type="button" class="mobile-btn" data-key=" ">Fortsæt</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="play-attack">
+          <p class="mobile-label">Kamp — angrib eller flygt</p>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn wide" data-key="a">Angrib (a)</button>
+            <button type="button" class="mobile-btn wide" data-key="f">Flygt (f)</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="1">1</button>
+            <button type="button" class="mobile-btn" data-key="2">2</button>
+            <button type="button" class="mobile-btn" data-key="3">3</button>
+            <button type="button" class="mobile-btn" data-key="4">4</button>
+            <button type="button" class="mobile-btn" data-key="5">5</button>
+            <button type="button" class="mobile-btn" data-key="6">6</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="Enter">Enter</button>
+            <button type="button" class="mobile-btn" data-key="Escape">Esc</button>
+            <button type="button" class="mobile-btn" data-key="j">Ja</button>
+            <button type="button" class="mobile-btn" data-key="n">Nej</button>
+          </div>
+        </div>
+
+        <div class="mobile-panel" data-panel="play-city">
+          <p class="mobile-label">By — vælg handling (1–6)</p>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="1">1</button>
+            <button type="button" class="mobile-btn" data-key="2">2</button>
+            <button type="button" class="mobile-btn" data-key="3">3</button>
+            <button type="button" class="mobile-btn" data-key="4">4</button>
+            <button type="button" class="mobile-btn" data-key="5">5</button>
+            <button type="button" class="mobile-btn" data-key="6">6</button>
+          </div>
+          <div class="mobile-row">
+            <button type="button" class="mobile-btn" data-key="F1">Hjælp</button>
+            <button type="button" class="mobile-btn" data-key="Enter">Enter</button>
+            <button type="button" class="mobile-btn" data-key="Escape">Esc</button>
+            <button type="button" class="mobile-btn" data-key="j">Ja</button>
+            <button type="button" class="mobile-btn" data-key="n">Nej</button>
           </div>
         </div>
 

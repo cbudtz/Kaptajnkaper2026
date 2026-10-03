@@ -19,6 +19,12 @@ describe('getMobilePanelForState', () => {
     ).toBe('play-harbor');
     expect(
       getMobilePanelForState({ step: GameStep.GAME_PLAYING, action: GameAction.ATTACK }),
+    ).toBe('play-attack');
+    expect(
+      getMobilePanelForState({ step: GameStep.GAME_PLAYING, action: GameAction.CITY }),
+    ).toBe('play-city');
+    expect(
+      getMobilePanelForState({ step: GameStep.GAME_PLAYING, action: GameAction.PROMOTE }),
     ).toBe('play-menu');
   });
 

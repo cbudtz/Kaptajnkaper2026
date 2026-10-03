@@ -1,4 +1,4 @@
-/* Touch / phone layout — game canvas sits above controls (not covered). */
+/* Touch / phone layout — game canvas above controls; one panel at a time. */
 
 #app-shell {
   position: fixed;
@@ -21,22 +21,30 @@
   display: block;
   touch-action: none;
   margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 #mobile-ui {
   display: none;
   flex: 0 0 auto;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 8px max(10px, env(safe-area-inset-bottom));
-  padding-left: max(8px, env(safe-area-inset-left));
-  padding-right: max(8px, env(safe-area-inset-right));
-  background: linear-gradient(180deg, rgba(0, 0, 40, 0.95), #000028);
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 10px max(12px, env(safe-area-inset-bottom));
+  padding-left: max(10px, env(safe-area-inset-left));
+  padding-right: max(10px, env(safe-area-inset-right));
+  background: linear-gradient(180deg, rgba(0, 0, 40, 0.98), #000028);
   border-top: 2px solid #5555ff;
   font-family: system-ui, -apple-system, sans-serif;
   z-index: 30;
   -webkit-user-select: none;
   user-select: none;
+}
+
+html.touch-device #mobile-ui {
+  display: flex;
 }
 
 @media (hover: none), (pointer: coarse), (max-width: 900px) {
@@ -57,9 +65,13 @@
   font-size: 13px;
   text-align: center;
   padding: 6px 12px;
-  background: rgba(0, 0, 40, 0.75);
+  background: rgba(0, 0, 40, 0.85);
   border-radius: 8px;
   pointer-events: none;
+}
+
+html.touch-device #mobile-hint.visible {
+  display: block;
 }
 
 @media (hover: none), (pointer: coarse) {
@@ -68,50 +80,67 @@
   }
 }
 
-.mobile-panel {
-  display: none;
+/* Inactive panels must never show (fixes stacked buttons on mobile browsers) */
+#mobile-ui .mobile-panel {
+  display: none !important;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
 }
 
-.mobile-panel.active {
-  display: flex;
+#mobile-ui .mobile-panel.active {
+  display: flex !important;
+}
+
+#mobile-ui .mobile-panel[hidden] {
+  display: none !important;
 }
 
 .mobile-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
+  gap: 10px;
+  justify-content: stretch;
+  align-items: stretch;
+  width: 100%;
 }
 
 .mobile-btn {
-  min-width: 48px;
-  min-height: 48px;
-  padding: 10px 14px;
+  flex: 1 1 calc(33% - 10px);
+  min-width: 72px;
+  min-height: 52px;
+  padding: 12px 10px;
   border: 2px solid #8888ff;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #0000a8;
   color: #fff;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   touch-action: manipulation;
+  line-height: 1.2;
 }
 
 .mobile-btn:active {
-  background: #0000d0;
-  transform: scale(0.97);
+  background: #2222cc;
 }
 
 .mobile-btn.wide {
-  flex: 1 1 40%;
-  max-width: 48%;
+  flex: 1 1 calc(50% - 10px);
+  min-width: 120px;
 }
 
 .mobile-btn.dpad {
-  min-width: 56px;
-  font-size: 20px;
+  flex: 1 1 calc(33% - 10px);
+  min-width: 64px;
+  min-height: 56px;
+  font-size: 22px;
+}
+
+.mobile-btn.primary {
+  flex: 1 1 100%;
+  min-height: 56px;
+  font-size: 18px;
+  background: #0000d0;
 }
 
 #mobile-name-wrap {
@@ -128,11 +157,11 @@
 #mobile-name-input {
   width: 100%;
   box-sizing: border-box;
-  min-height: 48px;
+  min-height: 52px;
   font-size: 18px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 2px solid #8888ff;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #000028;
   color: #fff;
 }
@@ -143,6 +172,8 @@
 
 .mobile-label {
   color: #aac;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
+  margin: 0;
+  width: 100%;
 }
