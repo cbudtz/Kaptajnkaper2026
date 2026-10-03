@@ -4,6 +4,7 @@ import PreloadScene from './scenes/PreloadScene.js';
 import GameScene from './scenes/GameScene.js';
 import { GAME_WIDTH, GAME_HEIGHT } from './config/assets.js';
 import './i18n/index.js';
+import './styles/mobile.css';
 
 const config = {
   type: Phaser.AUTO,

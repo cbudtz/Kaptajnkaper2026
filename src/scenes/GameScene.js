@@ -3,7 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../config/assets.js';
 import { KaperGameHost } from '../game/host/KaperGameHost.js';
 import { PhaserGameView } from '../game/view/PhaserGameView.js';
 import { ensureGameAudioUnlocked } from '../game/audio/playSound.js';
-import { bindMobileControls } from '../input/mobileControls.js';
+import { bindMobileControls, refreshMobileUi } from '../input/mobileControls.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -32,20 +32,35 @@ export default class GameScene extends Phaser.Scene {
       ensureGameAudioUnlocked();
     });
 
+    const playerBridge = {
+      setPlayerName: (name) => this.host.getCurrentPlayer().setName(name),
+      getPlayerName: () => this.host.getCurrentPlayer().getName(),
+      onNameChanged: () => {
+        this.host.render(this.view);
+      },
+    };
+
+    const getState = () => ({
+      step: this.host.currentStep,
+      action: this.host.currentAction,
+    });
+
     const onKey = (event) => {
       ensureGameAudioUnlocked();
       this.host.handleKey(event);
       this.host.render(this.view);
+      refreshMobileUi(getState, playerBridge);
     };
 
     if (this.input.keyboard) {
       this.input.keyboard.on('keydown', onKey);
     }
 
-    bindMobileControls(onKey);
+    bindMobileControls(onKey, getState, playerBridge);
 
     this.scheduleTick(this.host.tick());
     this.host.render(this.view);
+    refreshMobileUi(getState, playerBridge);
   }
 
   scheduleTick(delayMs) {
@@ -55,6 +70,13 @@ export default class GameScene extends Phaser.Scene {
         const next = this.host.tick();
         if (this.host.needsRender) {
           this.host.render(this.view);
+          refreshMobileUi(
+            () => ({ step: this.host.currentStep, action: this.host.currentAction }),
+            {
+              getPlayerName: () => this.host.getCurrentPlayer().getName(),
+              setPlayerName: (n) => this.host.getCurrentPlayer().setName(n),
+            },
+          );
         }
         this.scheduleTick(next);
       },

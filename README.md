@@ -32,7 +32,14 @@ Fidelity choices aligned with the **1985 DOS original**:
 4. **0** / **1** — silence or sound effects (then title screen)
 5. Enter name, then play (**F1** help, **F2** sound, **Esc** quit on the map)
 
-On **phones/tablets**, use the on-screen buttons at the bottom (the original game is keyboard-driven). Tap the game area for “continue” on intro screens.
+### Mobil / tablet
+
+Spillet er oprindeligt tastatur-baseret. På touch-enheder:
+
+- Spilområdet ligger **over** kontrolpanelet (intet overlap).
+- Kontekst-knapper: intro → lydvalg → **navnefelt** → kort med **pile** (hold for gentagelse).
+- I havn/by/kamp: **4/6**, tal **1–6**, **Ja/Nej**, F1/F2/Esc.
+- Gen-deploy på CapRover efter opdateringer.
 
 ## Development
 
