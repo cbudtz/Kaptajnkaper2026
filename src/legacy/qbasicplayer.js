@@ -292,3 +292,5 @@ class PlayStringPlayer {
     return Math.max(0, t - this.audioContext.currentTime);
   }
 }
+
+export { PlayStringPlayer };
