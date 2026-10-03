@@ -1,26 +1,8 @@
-import { GameStep, GameAction } from '../game/constants/enums.js';
+import { getMobilePanelForState } from './mobileUiState.js';
 
-/** @typedef {{ step: number, action: number }} GameUiState */
+/** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
 let lastUiPanel = '';
-
-/**
- * @param {() => GameUiState} getState
- */
-function panelForState(getState) {
-  const { step, action } = getState();
-
-  if (step === GameStep.INTRO_WELCOME) return 'intro';
-  if (step === GameStep.INTRO_SOUND) return 'sound';
-  if (step === GameStep.INTRO_ENTER_NAME) return 'name';
-  if (step === GameStep.TITLE_SCREEN) return 'title';
-  if (step === GameStep.GAME_PLAYING) {
-    if (action === GameAction.MAP) return 'play-map';
-    if (action === GameAction.HARBOR || action === GameAction.CITY) return 'play-harbor';
-    return 'play-menu';
-  }
-  return 'end';
-}
 
 /**
  * @param {(event: { key: string, preventDefault: () => void, stopPropagation?: () => void }) => void} handleKey
@@ -88,7 +70,7 @@ export function bindMobileControls(handleKey, getState, playerBridge = {}) {
     'pointerdown',
     (e) => {
       if (e.target.closest('#mobile-ui')) return;
-      const panel = panelForState(getState);
+      const panel = getMobilePanelForState(getState());
       if (panel === 'intro' || panel === 'title' || panel === 'sound') {
         dispatch(' ');
       }
@@ -108,7 +90,7 @@ export function syncMobileUi(getState, nameWrap, nameInput, playerBridge) {
   const ui = document.getElementById('mobile-ui');
   if (!ui) return;
 
-  const panel = panelForState(getState);
+  const panel = getMobilePanelForState(getState());
   ui.querySelectorAll('.mobile-panel').forEach((el) => {
     el.classList.toggle('active', el.dataset.panel === panel);
   });

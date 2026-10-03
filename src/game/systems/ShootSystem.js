@@ -6,6 +6,7 @@ import {
   ShootState,
 } from '../constants/enums.js';
 import { TextureKey } from '../constants/textureKeys.js';
+import { getLabelText } from '../text/getLabelText.js';
 
 /**
  * Cannon shooting combat (ported from legacy/shoot.js).
@@ -19,7 +20,6 @@ export class ShootSystem {
   constructor(host, enemy, attack) {
     this.host = host;
     this.currentPlayer = host.getCurrentPlayer();
-    this.font = host.getCGAFont();
 
     this.enemyDistance = undefined;
     this.windDirection = undefined;
@@ -111,8 +111,8 @@ export class ShootSystem {
   keyEvent(c) {
     switch (this.currentState) {
       case ShootState.SHOOTING: {
-        const fire = this.font.getResourceAsString('ShootTypeF').charAt(0);
-        const withdraw = this.font.getResourceAsString('ShootTypeW').charAt(0);
+        const fire = getLabelText('ShootTypeF').charAt(0);
+        const withdraw = getLabelText('ShootTypeW').charAt(0);
 
         if (c.toLowerCase() === fire) {
           this.fireShots();

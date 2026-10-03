@@ -1,4 +1,5 @@
 import { AttackType, EnemyState } from '../constants/enums.js';
+import { getLabelText } from '../text/getLabelText.js';
 
 /**
  * Enemy ship state for combat encounters (ported from legacy/enemy.js).
@@ -61,7 +62,7 @@ export class EnemyModel {
   }
 
   getName() {
-    return this.host.getCGAFont().getResourceAsString(`EnemyName${this.enemyType + 1}`);
+    return getLabelText(`EnemyName${this.enemyType + 1}`);
   }
 
   getMoney() {
