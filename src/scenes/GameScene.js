@@ -56,6 +56,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     bindMobileControls(onKey, getState, playerBridge);
+    this.mobilePlayerBridge = playerBridge;
 
     this.scheduleTick(this.host.tick());
     this.host.render(this.view);
@@ -85,6 +86,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     if (this.host?.needsRender) {
       this.host.render(this.view);
+      refreshMobileUi(() => this.host.getMobileUiState(), this.mobilePlayerBridge);
     }
   }
 }

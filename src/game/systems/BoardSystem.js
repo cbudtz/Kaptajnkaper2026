@@ -98,8 +98,10 @@ export class BoardSystem {
 
       if (c.toLowerCase() === fight) {
         this.boardEnemy();
+        this.host.markDirty();
       } else if (c.toLowerCase() === withdraw) {
         this.currentAttack.setCurrentAttack(AttackType.WITHDRAW);
+        this.host.markDirty();
       }
     }
   }
@@ -112,6 +114,7 @@ export class BoardSystem {
       this.host.animationRepaint = false;
       this.currentState = BoardState.BOARDING;
       this.boardEnemy();
+      this.host.markDirty();
     }
   }
 
@@ -162,6 +165,7 @@ export class BoardSystem {
       this.showFlagAnimation();
     } else {
       this.updateShowVariables();
+      this.host.markDirty();
     }
   }
 

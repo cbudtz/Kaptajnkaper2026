@@ -6,6 +6,7 @@ import { computeMobileLayout } from './mobileLayout.js';
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
 let lastUiPanel = '';
+let lastUiSignature = '';
 let repeatTimer = null;
 
 export function isMobileShellEnabled() {
@@ -170,7 +171,9 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   }
   ui.hidden = false;
 
-  const panel = getMobilePanelForState(getState());
+  const uiState = getState();
+  const panel = getMobilePanelForState(uiState);
+  const uiSignature = `${panel}:${uiState.attackMode ?? ''}:${uiState.cityMode ?? ''}:${uiState.step}:${uiState.action}`;
   const compactPanel =
     panel === 'play-map'
     || panel === 'play-harbor'
@@ -180,9 +183,10 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   ui.classList.toggle('compact-deck', compactPanel);
   const layout = resolveMobileLayout(panel);
 
-  if (panel !== lastUiPanel) {
+  if (uiSignature !== lastUiSignature) {
     renderMobileDeck(layout, deck);
     deck.classList.toggle('compact', compactPanel);
+    lastUiSignature = uiSignature;
   } else {
     deck.classList.toggle('compact', compactPanel);
   }
