@@ -10,14 +10,22 @@ const config = {
   parent: 'game-container',
   backgroundColor: '#000028',
   scale: {
-    mode: Phaser.Scale.RESIZE,
+    mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
+    parent: 'game-container',
   },
   scene: [BootScene, PreloadScene, GameScene],
   pixelArt: true,
   roundPixels: true,
+  input: {
+    activePointers: 3,
+  },
+  render: {
+    antialias: false,
+    powerPreference: 'high-performance',
+  },
 };
 
 // eslint-disable-next-line no-new

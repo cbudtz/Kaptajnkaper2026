@@ -2,31 +2,136 @@
 <html lang="da">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Kaptajn Kaper i Kattegat</title>
     <meta
       name="description"
       content="Kaptajn Kaper i Kattegat — Phaser remake based on Peter Ole Frederiksen's 1985 classic (GPL-3.0)."
     />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
     <style>
-      html,
+      html {
+        height: 100%;
+        height: -webkit-fill-available;
+      }
       body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        min-height: -webkit-fill-available;
         background: #000028;
         overflow: hidden;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
       }
       #game-container {
+        position: fixed;
+        inset: 0;
         width: 100%;
         height: 100%;
+        touch-action: none;
+      }
+      #game-container canvas {
+        display: block;
+        touch-action: none;
+      }
+      /* Touch-only on-screen controls (keyboard game on desktop) */
+      #mobile-controls {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 20;
+        padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        pointer-events: none;
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+      }
+      @media (hover: none), (pointer: coarse) {
+        #mobile-controls {
+          display: flex;
+        }
+      }
+      #mobile-controls button {
+        pointer-events: auto;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 2px solid #aaa;
+        border-radius: 8px;
+        background: #000028;
+        color: #fff;
+        font-weight: 600;
+      }
+      #mobile-controls .row {
+        display: flex;
+        gap: 6px;
+        width: 100%;
+        justify-content: center;
+        pointer-events: none;
+      }
+      #mobile-hint {
+        display: none;
+        position: fixed;
+        top: env(safe-area-inset-top, 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+        color: #ccc;
+        font: 13px system-ui, sans-serif;
+        text-align: center;
+        padding: 6px 10px;
+        pointer-events: none;
+      }
+      @media (hover: none), (pointer: coarse) {
+        #mobile-hint {
+          display: block;
+        }
       }
     </style>
   </head>
   <body>
+    <div id="mobile-hint">Tryk på knapperne nedenfor — spillet bruger ellers tastatur</div>
     <div id="game-container"></div>
+    <div id="mobile-controls" aria-label="Spilkontroller">
+      <div class="row">
+        <button type="button" data-key=" ">Fortsæt</button>
+        <button type="button" data-key="0">0 Stilhed</button>
+        <button type="button" data-key="1">1 Lyd</button>
+        <button type="button" data-key="e">Engelsk</button>
+        <button type="button" data-key="F2">F2 Lyd</button>
+        <button type="button" data-key="F1">F1 Hjælp</button>
+      </div>
+      <div class="row">
+        <button type="button" data-key="7">↖</button>
+        <button type="button" data-key="8">↑</button>
+        <button type="button" data-key="9">↗</button>
+      </div>
+      <div class="row">
+        <button type="button" data-key="4">←</button>
+        <button type="button" data-key="2">↓</button>
+        <button type="button" data-key="6">→</button>
+      </div>
+      <div class="row">
+        <button type="button" data-key="1">↙</button>
+        <button type="button" data-key="3">↘</button>
+        <button type="button" data-key="Enter">Enter</button>
+        <button type="button" data-key="Escape">Esc</button>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

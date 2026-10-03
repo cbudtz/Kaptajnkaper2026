@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../config/assets.js';
 import { KaperGameHost } from '../game/host/KaperGameHost.js';
 import { PhaserGameView } from '../game/view/PhaserGameView.js';
 import { ensureGameAudioUnlocked } from '../game/audio/playSound.js';
+import { bindMobileControls } from '../input/mobileControls.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -14,8 +15,15 @@ export default class GameScene extends Phaser.Scene {
 
     this.world = this.add.container(0, 0);
     this.view = new PhaserGameView(this, this.world);
-    this.layoutWorld();
-    this.scale.on('resize', () => this.layoutWorld());
+
+    const refreshLayout = () => {
+      this.host.render(this.view);
+    };
+    this.scale.on('resize', refreshLayout);
+    window.visualViewport?.addEventListener('resize', () => {
+      this.scale.refresh();
+      refreshLayout();
+    });
 
     this.game.canvas.setAttribute('tabindex', '0');
     this.game.canvas.focus();
@@ -24,24 +32,20 @@ export default class GameScene extends Phaser.Scene {
       ensureGameAudioUnlocked();
     });
 
-    this.input.keyboard.on('keydown', (event) => {
+    const onKey = (event) => {
       ensureGameAudioUnlocked();
       this.host.handleKey(event);
-    });
+      this.host.render(this.view);
+    };
+
+    if (this.input.keyboard) {
+      this.input.keyboard.on('keydown', onKey);
+    }
+
+    bindMobileControls(onKey);
 
     this.scheduleTick(this.host.tick());
     this.host.render(this.view);
-  }
-
-  layoutWorld() {
-    const scale = Math.min(this.scale.width / GAME_WIDTH, this.scale.height / GAME_HEIGHT);
-    const displayW = GAME_WIDTH * scale;
-    const displayH = GAME_HEIGHT * scale;
-    this.world.setPosition(
-      (this.scale.width - displayW) / 2,
-      (this.scale.height - displayH) / 2,
-    );
-    this.world.setScale(scale);
   }
 
   scheduleTick(delayMs) {

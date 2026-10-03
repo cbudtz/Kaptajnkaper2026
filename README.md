@@ -32,6 +32,8 @@ Fidelity choices aligned with the **1985 DOS original**:
 4. **0** / **1** — silence or sound effects (then title screen)
 5. Enter name, then play (**F1** help, **F2** sound, **Esc** quit on the map)
 
+On **phones/tablets**, use the on-screen buttons at the bottom (the original game is keyboard-driven). Tap the game area for “continue” on intro screens.
+
 ## Development
 
 ```bash
