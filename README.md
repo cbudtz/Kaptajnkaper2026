@@ -13,7 +13,9 @@ The Royal Danish Library published the original `KAPER.BAS`, `BUILD.BAS`, `SKUD.
 
 ## This implementation
 
-Game logic and CGA-style assets follow the JavaScript port [**Privateer**](https://github.com/nivs1978/Privateer) (GPL-3.0), which traces back to Rune P. Olsen’s Java applet and the original QBASIC/DOS design (`KAPER.BAS` release 4). Phaser hosts the legacy renderer on a canvas texture, handles scaling, and ships a production static build.
+**Phaser 3 (idiomatic):** `BootScene` → `PreloadScene` → `GameScene` with a `KaperGameHost` controller, ES module game systems under `src/game/systems/`, and CGA text drawn via Phaser textures (`PhaserGameView` / `CgaLabelFactory`). No canvas bridge.
+
+Game logic matches the JavaScript port [**Privateer**](https://github.com/nivs1978/Privateer) (GPL-3.0), which traces back to the original QBASIC/DOS design (`KAPER.BAS` release 4).
 
 Fidelity choices aligned with the **1985 DOS original**:
 

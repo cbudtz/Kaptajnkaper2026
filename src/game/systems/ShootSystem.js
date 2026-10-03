@@ -12,7 +12,7 @@ import { TextureKey } from '../constants/textureKeys.js';
  */
 export class ShootSystem {
   /**
-   * @param {object} host
+   * @param {import('../host/GameHost.js').GameHost} host
    * @param {import('./EnemyModel.js').EnemyModel} enemy
    * @param {import('./AttackSystem.js').AttackSystem} attack
    */
@@ -37,6 +37,9 @@ export class ShootSystem {
     this.currentState = ShootState.SHOOTING;
   }
 
+  /**
+   * @param {import('../view/GameView.js').GameView} view
+   */
   render(view) {
     view.setCgaMode(CgaMode.MODE1);
     view.drawImage(TextureKey.SHOOT, 9, 0);

@@ -1,3 +1,14 @@
+/** @see kaper.stepType in legacy/kaper.js */
+export const GameStep = Object.freeze({
+  INTRO_WELCOME: 0,
+  INTRO_ENTER_NAME: 1,
+  TITLE_SCREEN: 2,
+  GAME_PLAYING: 3,
+  GAME_LOST: 4,
+  HIGHSCORE: 5,
+  INTRO_SOUND: 6,
+});
+
 /** @see kaper.actionType in legacy/kaper.js */
 export const GameAction = Object.freeze({
   MAP: 0,

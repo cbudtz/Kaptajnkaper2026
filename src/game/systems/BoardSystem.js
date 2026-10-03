@@ -12,7 +12,7 @@ import { playSound } from '../audio/playSound.js';
  */
 export class BoardSystem {
   /**
-   * @param {object} host
+   * @param {import('../host/GameHost.js').GameHost} host
    * @param {import('./EnemyModel.js').EnemyModel} enemy
    * @param {import('./AttackSystem.js').AttackSystem} attack
    */
@@ -50,6 +50,9 @@ export class BoardSystem {
     this.currentState = BoardState.SHIP_ANIMATION;
   }
 
+  /**
+   * @param {import('../view/GameView.js').GameView} view
+   */
   render(view) {
     view.setCgaMode(CgaMode.MODE1);
 

@@ -5,7 +5,7 @@ import { AttackType, EnemyState } from '../constants/enums.js';
  */
 export class EnemyModel {
   /**
-   * @param {object} host - Game host (legacy kaper)
+   * @param {import('../host/GameHost.js').GameHost} host
    * @param {import('./AttackSystem.js').AttackSystem} attack
    */
   constructor(host, attack) {
