@@ -2,13 +2,16 @@
 
 #app-shell {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   background: #000028;
   overflow: hidden;
   height: var(--app-height, 100dvh);
   max-height: var(--app-height, 100dvh);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #game-container {
@@ -36,10 +39,11 @@
   height: var(--mobile-deck-height, 280px);
   min-height: var(--mobile-deck-height, 280px);
   max-height: var(--mobile-deck-height, 280px);
-  gap: 6px;
+  gap: 4px;
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 10px max(10px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  padding: 6px 8px max(6px, env(safe-area-inset-bottom));
   padding-left: max(10px, env(safe-area-inset-left));
   padding-right: max(10px, env(safe-area-inset-right));
   background: linear-gradient(180deg, #0a0a5a 0%, #000028 100%);
@@ -73,6 +77,15 @@ html.touch-device #mobile-ui {
   font-weight: 600;
   text-align: center;
   line-height: 1.25;
+}
+
+#mobile-ui.compact-deck #mobile-caption,
+#mobile-caption[hidden] {
+  display: none !important;
+  margin: 0;
+  padding: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 #mobile-hint {
@@ -140,9 +153,14 @@ html.touch-device #mobile-hint.visible {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   min-height: 0;
   width: 100%;
+  overflow: hidden;
+}
+
+#mobile-deck.compact {
+  gap: 4px;
 }
 
 .mobile-deck-row {
@@ -156,18 +174,24 @@ html.touch-device #mobile-hint.visible {
 
 .mobile-deck-toolbar {
   flex: 0 0 auto;
-  min-height: 44px;
-  max-height: 52px;
+  min-height: 0;
+  max-height: 40px;
+  height: clamp(36px, 9vh, 40px);
 }
 
 .mobile-dpad-grid {
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
-  min-height: 160px;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  min-height: 0;
   width: 100%;
+  overflow: hidden;
+}
+
+#mobile-deck.compact .mobile-dpad-grid {
+  gap: 4px;
 }
 
 .mobile-dpad-spacer {

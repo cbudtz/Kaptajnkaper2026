@@ -36,5 +36,25 @@ test.describe('Viewport fit', () => {
     expect(metrics.gameH + metrics.uiH).toBeGreaterThanOrEqual(metrics.shellH - 4);
     expect(metrics.canvasW).toBeGreaterThanOrEqual(REFERENCE_VIEWPORT.width - 8);
     expect(metrics.uiH).toBeGreaterThan(200);
+
+    const bottomInside = await page.evaluate(() => {
+      const vv = window.visualViewport;
+      const vvBottom = (vv?.offsetTop ?? 0) + (vv?.height ?? window.innerHeight);
+      const buttons = [...document.querySelectorAll('#mobile-deck button')];
+      const maxBottom = Math.max(...buttons.map((b) => b.getBoundingClientRect().bottom));
+      const caption = document.getElementById('mobile-caption');
+      const ui = document.getElementById('mobile-ui');
+      return {
+        maxBottom: Math.round(maxBottom),
+        vvBottom: Math.round(vvBottom),
+        captionHidden:
+          ui?.classList.contains('compact-deck')
+          || caption?.hidden
+          || getComputedStyle(caption ?? document.body).display === 'none',
+      };
+    });
+
+    expect(bottomInside.captionHidden).toBe(true);
+    expect(bottomInside.maxBottom).toBeLessThanOrEqual(bottomInside.vvBottom + 1);
   });
 });

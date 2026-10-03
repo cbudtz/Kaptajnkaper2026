@@ -25,8 +25,9 @@ test.describe('Mobile play flow', () => {
     expect(deckBox?.height ?? 0).toBeGreaterThan(120);
     expect(uiBox?.height ?? 0).toBeGreaterThan(200);
 
-    await page.getByRole('button', { name: '↑' }).click();
-    await page.getByRole('button', { name: '↑' }).click();
+    const up = page.locator('.mobile-dpad-grid button[data-key="8"]');
+    await up.click();
+    await up.click();
     await expect(page.locator('#game-container canvas')).toBeVisible();
   });
 });

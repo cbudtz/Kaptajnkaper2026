@@ -36,7 +36,6 @@ export const MOBILE_LAYOUTS = {
     rows: [[{ key: ' ', label: 'Fortsæt', primary: true }]],
   },
   'play-map': {
-    caption: 'Sejl med pilene — F1 hjælp, F2 lyd',
     toolbar: [
       { key: 'F1', label: 'Hjælp' },
       { key: 'F2', label: 'Lyd' },

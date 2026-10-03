@@ -20,6 +20,8 @@ function layoutMobileShell() {
   const vv = window.visualViewport;
   const viewportWidth = Math.round(vv?.width ?? window.innerWidth);
   const viewportHeight = Math.round(vv?.height ?? window.innerHeight);
+  const offsetTop = Math.round(vv?.offsetTop ?? 0);
+  const offsetLeft = Math.round(vv?.offsetLeft ?? 0);
   const { gameBandHeight, deckHeight } = computeMobileLayout(viewportWidth, viewportHeight);
 
   const root = document.documentElement;
@@ -29,8 +31,13 @@ function layoutMobileShell() {
 
   const shell = document.getElementById('app-shell');
   if (shell && isMobileShellEnabled()) {
+    shell.style.top = `${offsetTop}px`;
+    shell.style.left = `${offsetLeft}px`;
+    shell.style.width = `${viewportWidth}px`;
     shell.style.height = `${viewportHeight}px`;
     shell.style.maxHeight = `${viewportHeight}px`;
+    shell.style.right = 'auto';
+    shell.style.bottom = 'auto';
   }
 
   const gameContainer = document.getElementById('game-container');
@@ -60,11 +67,7 @@ export function initMobileShell() {
   layoutMobileShell();
   window.addEventListener('resize', layoutMobileShell);
   window.visualViewport?.addEventListener('resize', layoutMobileShell);
-  window.visualViewport?.addEventListener('scroll', () => {
-    if (document.activeElement?.id !== 'mobile-name-input') {
-      window.scrollTo(0, 0);
-    }
-  });
+  window.visualViewport?.addEventListener('scroll', layoutMobileShell);
 
   bindMobileViewportHandlers();
 }
@@ -168,13 +171,26 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   ui.hidden = false;
 
   const panel = getMobilePanelForState(getState());
+  const compactPanel =
+    panel === 'play-map' || panel === 'play-harbor' || panel === 'play-attack';
+  ui.classList.toggle('compact-deck', compactPanel);
   const layout = MOBILE_LAYOUTS[panel] ?? MOBILE_LAYOUTS.end;
 
   if (panel !== lastUiPanel) {
     renderMobileDeck(layout, deck);
-    if (caption) caption.textContent = layout.caption ?? '';
-  } else if (caption && caption.textContent !== (layout.caption ?? '')) {
-    caption.textContent = layout.caption ?? '';
+    deck.classList.toggle('compact', compactPanel);
+  } else {
+    deck.classList.toggle('compact', compactPanel);
+  }
+
+  if (caption) {
+    if (compactPanel) {
+      caption.hidden = true;
+      caption.textContent = '';
+    } else {
+      caption.hidden = false;
+      caption.textContent = layout.caption ?? '';
+    }
   }
 
   const onName = panel === 'name';
