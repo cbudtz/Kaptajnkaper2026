@@ -29,8 +29,11 @@
 
 #mobile-ui {
   display: none;
-  flex: 0 0 var(--mobile-deck-height, min(42dvh, 420px));
+  flex: 0 0 auto;
   flex-direction: column;
+  height: var(--mobile-deck-height, 280px);
+  min-height: var(--mobile-deck-height, 280px);
+  max-height: var(--mobile-deck-height, 280px);
   gap: 6px;
   width: 100%;
   box-sizing: border-box;
@@ -63,8 +66,9 @@ html.touch-device #mobile-ui {
 #mobile-caption {
   flex: 0 0 auto;
   margin: 0;
-  color: #bbd;
-  font-size: clamp(12px, 3.2vw, 14px);
+  color: #dde;
+  font-size: clamp(14px, 3.8vw, 16px);
+  font-weight: 600;
   text-align: center;
   line-height: 1.25;
 }
@@ -118,7 +122,7 @@ html.touch-device #mobile-hint.visible {
   width: 100%;
   box-sizing: border-box;
   min-height: 48px;
-  font-size: 18px;
+  font-size: 16px;
   padding: 12px 14px;
   border: 2px solid #8888ff;
   border-radius: 12px;
@@ -160,7 +164,7 @@ html.touch-device #mobile-hint.visible {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 8px;
-  min-height: 0;
+  min-height: 160px;
   width: 100%;
 }
 

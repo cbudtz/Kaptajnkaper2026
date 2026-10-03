@@ -32,5 +32,7 @@ const config = {
   },
 };
 
-// eslint-disable-next-line no-new
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+window.addEventListener('kaper-mobile-layout', () => {
+  game.scale.refresh();
+});

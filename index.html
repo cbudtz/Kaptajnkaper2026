@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
     />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,13 +50,21 @@
       }
       #mobile-ui {
         display: none;
-        flex: 0 0 min(42dvh, 420px);
+        flex: 0 0 auto;
         flex-direction: column;
+        height: var(--mobile-deck-height, 280px);
+        min-height: var(--mobile-deck-height, 280px);
         width: 100%;
         box-sizing: border-box;
         padding: 8px 10px max(10px, env(safe-area-inset-bottom));
-        background: #000028;
+        background: linear-gradient(180deg, #0a0a5a, #000028);
         border-top: 3px solid #6666ff;
+      }
+      html.touch-device #mobile-ui:not([hidden]) {
+        display: flex;
+      }
+      #mobile-name-input {
+        font-size: 16px;
       }
       #mobile-deck {
         flex: 1;

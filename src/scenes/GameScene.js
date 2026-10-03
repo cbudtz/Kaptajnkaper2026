@@ -20,10 +20,12 @@ export default class GameScene extends Phaser.Scene {
       this.host.render(this.view);
     };
     this.scale.on('resize', refreshLayout);
-    window.visualViewport?.addEventListener('resize', () => {
+    const onViewportChange = () => {
       this.scale.refresh();
       refreshLayout();
-    });
+    };
+    window.visualViewport?.addEventListener('resize', onViewportChange);
+    window.addEventListener('kaper-mobile-layout', onViewportChange);
 
     this.game.canvas.setAttribute('tabindex', '0');
     this.game.canvas.focus();

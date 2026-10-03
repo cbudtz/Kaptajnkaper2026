@@ -1,5 +1,6 @@
 import { getMobilePanelForState } from './mobileUiState.js';
 import { MOBILE_LAYOUTS, renderMobileDeck } from './mobileLayouts.js';
+import { bindMobileViewportHandlers, resetMobileViewportZoom } from './mobileViewport.js';
 
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
@@ -14,24 +15,37 @@ export function isMobileShellEnabled() {
   );
 }
 
+function layoutMobileShell() {
+  const vh = window.visualViewport?.height ?? window.innerHeight;
+  const deckHeight = Math.round(Math.min(Math.max(vh * 0.4, 220), 380));
+  document.documentElement.style.setProperty('--mobile-deck-height', `${deckHeight}px`);
+
+  const ui = document.getElementById('mobile-ui');
+  if (ui && isMobileShellEnabled()) {
+    ui.hidden = false;
+    ui.style.height = `${deckHeight}px`;
+    ui.style.minHeight = `${deckHeight}px`;
+    ui.style.maxHeight = `${deckHeight}px`;
+  }
+
+  window.dispatchEvent(new Event('kaper-mobile-layout'));
+}
+
 export function initMobileShell() {
   if ('ontouchstart' in globalThis || navigator.maxTouchPoints > 0) {
     document.documentElement.classList.add('touch-device');
   }
-  const relayout = () => {
-    document.documentElement.style.setProperty(
-      '--mobile-deck-height',
-      `${Math.round(Math.min(Math.max(window.innerHeight * 0.42, 200), 480))}px`,
-    );
-  };
-  relayout();
-  window.addEventListener('resize', relayout);
-  window.visualViewport?.addEventListener('resize', relayout);
 
-  if (isMobileShellEnabled()) {
-    const ui = document.getElementById('mobile-ui');
-    if (ui) ui.hidden = false;
-  }
+  layoutMobileShell();
+  window.addEventListener('resize', layoutMobileShell);
+  window.visualViewport?.addEventListener('resize', layoutMobileShell);
+  window.visualViewport?.addEventListener('scroll', () => {
+    if (document.activeElement?.id !== 'mobile-name-input') {
+      window.scrollTo(0, 0);
+    }
+  });
+
+  bindMobileViewportHandlers();
 }
 
 /**
@@ -70,6 +84,10 @@ export function bindMobileControls(handleKey, getState, playerBridge = {}) {
     e.preventDefault();
     const key = btn.getAttribute('data-key');
     if (!key) return;
+    if (nameInput && document.activeElement === nameInput) {
+      nameInput.blur();
+      resetMobileViewportZoom();
+    }
     dispatch(key);
     if (btn.classList.contains('repeat')) {
       clearRepeat();
@@ -88,6 +106,8 @@ export function bindMobileControls(handleKey, getState, playerBridge = {}) {
     nameInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
+        nameInput.blur();
+        resetMobileViewportZoom();
         dispatch('Enter');
       }
     });
@@ -141,17 +161,21 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   if (onName && nameInput) {
     const current = playerBridge.getPlayerName?.() ?? '';
     if (nameInput.value !== current) nameInput.value = current;
-    if (panel !== lastUiPanel) {
-      setTimeout(() => nameInput.focus(), 100);
-    }
+  } else if (nameInput && document.activeElement === nameInput) {
+    nameInput.blur();
+    resetMobileViewportZoom();
   }
 
   lastUiPanel = panel;
 
   const hint = document.getElementById('mobile-hint');
-  if (hint && !hint.dataset.dismissed && layout.caption) {
-    hint.textContent = layout.caption;
-    hint.classList.add('visible');
+  if (hint) {
+    if (panel === 'play-map' || panel === 'play-harbor' || panel === 'play-attack') {
+      hint.classList.remove('visible');
+    } else if (!hint.dataset.dismissed && layout.caption) {
+      hint.textContent = layout.caption;
+      hint.classList.add('visible');
+    }
   }
 }
 
