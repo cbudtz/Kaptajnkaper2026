@@ -276,21 +276,13 @@ export class ShootSystem {
       }
     }
 
-    pMen = this.currentPlayer.getMen();
-    pRep = this.currentPlayer.getReparation();
-    pCan = this.currentPlayer.getCannons();
-    eMen = this.currentEnemy.getMen();
-    eRep = this.currentEnemy.getReparation();
-    eCan = this.currentEnemy.getCannons();
-
-    if (pMen !== this.currentPlayer.getMen()
-      || pRep !== this.currentPlayer.getReparation()
-      || pCan !== this.currentPlayer.getCannons()) {
+    const cMen = this.currentPlayer.getMen();
+    const cRep = this.currentPlayer.getReparation();
+    const cCan = this.currentPlayer.getCannons();
+    if (pMen !== cMen || pRep !== cRep || pCan !== cCan) {
       this.showEnemyShots = true;
 
-      let noEnemyShots = (pMen - this.currentPlayer.getMen())
-        + (pRep - this.currentPlayer.getReparation())
-        + (pCan - this.currentPlayer.getCannons());
+      let noEnemyShots = (pMen - cMen) + (pRep - cRep) + (pCan - cCan);
       if (noEnemyShots > 10) noEnemyShots = 10;
       if (noEnemyShots > eCan) noEnemyShots = eCan;
 
