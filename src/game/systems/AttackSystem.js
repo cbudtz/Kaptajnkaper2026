@@ -31,6 +31,7 @@ export class AttackSystem {
     this.currentBoard = new BoardSystem(this.host, this.currentEnemy, this);
 
     this.sunkMen = 0;
+    this.victorySoundPlayed = false;
   }
 
   /**
@@ -77,7 +78,10 @@ export class AttackSystem {
         break;
 
       case AttackType.WON_SURRENDER:
-        playSound('taps');
+        if (!this.victorySoundPlayed) {
+          playSound('taps');
+          this.victorySoundPlayed = true;
+        }
         // fall through
       case AttackType.WON_PRIZING:
         view.setCgaMode(CgaMode.MODE1);
@@ -102,13 +106,16 @@ export class AttackSystem {
         break;
 
       case AttackType.WON_SUNK:
-        playSound('taps');
+        if (!this.victorySoundPlayed) {
+          playSound('taps');
+          this.victorySoundPlayed = true;
+        }
         view.setCgaMode(CgaMode.MODE1);
         view.drawLabel('AttackSunk1', 0, 0);
         let moreLines = 0;
         if (this.sunkMen > 0) {
           view.drawLabel('AttackSunk2', 0, 16, this.sunkMen);
-          this.moreLines += 16;
+          moreLines += 16;
         }
         view.drawLabel('Continue', 0, 32 + moreLines);
         break;
@@ -176,21 +183,18 @@ export class AttackSystem {
         const prize = getLabelText('AttackSurrenderP').charAt(0);
         const sink = getLabelText('AttackSurrenderS').charAt(0);
 
-        this.host.getMap().setCurrentMapDataValue(50);
-
-        this.currentPlayer.setMoney(this.currentPlayer.getMoney() + this.currentEnemy.getMoney());
-        let grain = this.currentEnemy.getGrain();
-        if (grain === 1) grain = 2;
-        this.currentPlayer.setGrain(this.currentPlayer.getGrain() + grain);
-
         if (c.toLowerCase() === prize) {
+          this.grantSurrenderSpoils();
           this.currentAttack = AttackType.WON_PRIZING;
+          this.host.markDirty();
           if (this.currentPlayer.getDifficulty() < Math.floor(Math.random() * 16)) {
             this.currentPlayer.addToPrizeMen(this.currentEnemy.getPrizeCost());
             this.currentPlayer.addToPrizeMoney(this.currentEnemy.getMoney());
           }
         } else if (c.toLowerCase() === sink) {
+          this.grantSurrenderSpoils();
           this.currentAttack = AttackType.WON_SUNK;
+          this.host.markDirty();
           const newMen = this.currentPlayer.getMen() + this.currentEnemy.getMen();
           if (newMen > 500) {
             this.currentPlayer.setMen(500);
@@ -205,19 +209,34 @@ export class AttackSystem {
       }
 
       case AttackType.WON_PRIZING:
-        this.currentPlayer.setMen(this.currentPlayer.getMen() - this.currentEnemy.getPrizeCost());
-        this.resetAttack(AttackOutcome.WON);
-        this.currentPlayer.checkPlayerStatus();
+        if (c === ' ' || c === 'Enter') {
+          this.currentPlayer.setMen(this.currentPlayer.getMen() - this.currentEnemy.getPrizeCost());
+          this.resetAttack(AttackOutcome.WON);
+          this.currentPlayer.checkPlayerStatus();
+        } else {
+          playSound('beep');
+        }
         break;
 
       case AttackType.WON_SUNK:
-        this.host.getMap().setCurrentMapDataValue(50);
-        this.resetAttack(AttackOutcome.WON);
+        if (c === ' ' || c === 'Enter') {
+          this.resetAttack(AttackOutcome.WON);
+        } else {
+          playSound('beep');
+        }
         break;
 
       default:
         break;
     }
+  }
+
+  grantSurrenderSpoils() {
+    this.host.getMap().setCurrentMapDataValue(50);
+    this.currentPlayer.setMoney(this.currentPlayer.getMoney() + this.currentEnemy.getMoney());
+    let grain = this.currentEnemy.getGrain();
+    if (grain === 1) grain = 2;
+    this.currentPlayer.setGrain(this.currentPlayer.getGrain() + grain);
   }
 
   resetAttack(t) {
@@ -228,6 +247,7 @@ export class AttackSystem {
     }
 
     this.currentAttack = AttackType.NONE;
+    this.victorySoundPlayed = false;
     this.currentEnemy.prepareNextEnemy();
     this.host.setCurrentAction(GameAction.MAP);
     this.sunkMen = 0;
@@ -239,6 +259,7 @@ export class AttackSystem {
 
   setCurrentAttack(a) {
     this.currentAttack = a;
+    this.host.markDirty();
   }
 
   getCurrentBoard() {

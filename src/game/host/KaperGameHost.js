@@ -108,6 +108,11 @@ export class KaperGameHost {
     this.needsRender = true;
   }
 
+  /** Legacy board/attack code expects repaint(); same as markDirty(). */
+  repaint() {
+    this.markDirty();
+  }
+
   /**
    * @param {import('../view/PhaserGameView.js').PhaserGameView} view
    */

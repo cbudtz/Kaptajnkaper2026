@@ -29,3 +29,12 @@ describe('KaperGameHost intro flow', () => {
     expect(host.getCurrentPlayer().getName()).toBe('ab');
   });
 });
+
+describe('KaperGameHost combat host', () => {
+  it('repaint marks the frame dirty for legacy combat callbacks', () => {
+    const host = new KaperGameHost();
+    host.needsRender = false;
+    host.repaint();
+    expect(host.needsRender).toBe(true);
+  });
+});

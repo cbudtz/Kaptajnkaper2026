@@ -21,7 +21,7 @@ export function getAttackMobileMode(attack) {
       return 'surrender';
     case AttackType.WON_PRIZING:
     case AttackType.WON_SUNK:
-      return 'won';
+      return 'continue';
     default:
       return 'continue';
   }
