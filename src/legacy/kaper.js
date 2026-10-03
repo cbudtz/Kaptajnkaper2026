@@ -31,7 +31,8 @@
  */
 function kaper()
 {
-    this.currentVersion = "1.0 (2026/05/15)"; // Current version of this game
+    this.currentVersion = "1 Release 4"; // Matches KAPER.BAS "Version 1 Release 4"
+    this.titleMusicPlayed = false;
     
     this.osimg = null; // Offscreen image to be used for double buffering
     this.osgrp = null; // Offscreen graphics to be used for double buffering
@@ -57,7 +58,8 @@ function kaper()
     this.currentAction = null; // If playing, what is the current game action
     this.endScreenInputUnlockedAt = 0; // Timestamp when end screen key input is allowed again
 
-    this.highScoreStorageKey = "privateer.highscore.v1";
+    this.highScoreStorageKey = "kaptajnkaper.rec.v1";
+    this.legacyHighScoreStorageKey = "privateer.highscore.v1";
     this.highScore = { score: 0, name: "" }; // Original game stores one record holder
 
     var okaper = this; // To be able to access this object from the keyboard functions
@@ -136,45 +138,54 @@ function kaper()
         {
             case kaper.stepType.INTRO_WELCOME:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
-                this.osgrp.drawImage(this.font.getResource("Welcome1"), 128, 32);
-                this.osgrp.drawImage(this.font.getResource("Welcome2"), 32, 80);
-                this.osgrp.drawImage(this.font.getResource("Welcome3"), 32, 96);
-                this.osgrp.drawImage(this.font.getResource("Welcome4"), 32, 112);
-                this.osgrp.drawImage(this.font.getResource("Welcome5"), 32, 160);
-                this.osgrp.drawImage(this.font.getResource("Welcome6"), 16, 176);
-                this.osgrp.drawImage(this.font.getResource("Welcome7"), 128, 192);
-                this.osgrp.drawImage(this.font.getResource("Welcome9"), 64, 240);
-                this.osgrp.drawImage(this.font.getResource("Welcome10"), 128, 256);
-                this.osgrp.drawImage(this.font.getString(this.font.getResourceAsString("Welcome8")), 96, 360);
-                this.osgrp.drawImage(this.font.getString("v" + this.currentVersion), 196, 384);
+                this.osgrp.drawImage(this.font.getResource("Welcome1"), 128, 24);
+                this.osgrp.drawImage(this.font.getResource("Welcome2"), 128, 48);
+                this.osgrp.drawImage(this.font.getResource("Welcome3"), 96, 72);
 
                 var recordName = this.highScore.name && this.highScore.name.length > 0 ? this.highScore.name : "Nelson himself!";
                 var recordValue = this.highScore.score || 256;
-                this.osgrp.drawImage(this.font.getResource("RecordLabel"), 40, 296);
-                this.osgrp.drawImage(this.font.getResource("RecordHolderLabel"), 144, 296);                
-                this.osgrp.drawImage(this.font.getString(((""+recordValue).padStart(5, " "))), 24, 312);
-                this.osgrp.drawImage(this.font.getString(recordName), 144, 312);
+                this.osgrp.drawImage(this.font.getString("REKORD:"), 192, 112);
+                this.osgrp.drawImage(this.font.getResource("RecordLabel"), 144, 144);
+                this.osgrp.drawImage(this.font.getResource("RecordHolderLabel"), 144, 160);
+                this.osgrp.drawImage(this.font.getString(((""+recordValue).padStart(5, " "))), 96, 144);
+                this.osgrp.drawImage(this.font.getString(recordName), 144, 176);
 
+                this.osgrp.drawImage(this.font.getResource("Welcome8"), 64, 240);
+                this.osgrp.drawImage(this.font.getResource("Welcome9"), 96, 272);
+                this.osgrp.drawImage(this.font.getResource("Welcome10"), 96, 288);
+                break;
+
+            case kaper.stepType.INTRO_SOUND:
+                this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro1"), 32, 64);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro2"), 160, 80);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro3"), 64, 128);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro4"), 64, 176);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro5"), 64, 192);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro6"), 64, 240);
+                this.osgrp.drawImage(this.font.getString(isGameSoundEnabled() ? "1" : "0"), 240, 240);
+                this.osgrp.drawImage(this.font.getResource("SoundIntro7"), 64, 272);
                 break;
 
             case kaper.stepType.INTRO_ENTER_NAME:
                 this.font.setCurrentMode(cgafont.modes.CGA_MODE1);
                 var labelImg = this.font.getResource("PlayerName1");
-                this.osgrp.drawImage(labelImg, 0, 112);
+                this.osgrp.drawImage(labelImg, 0, 48);
                 var label_x_offset = labelImg.width + 32;
-                this.osgrp.drawImage(img_ship_map_mode1, label_x_offset, 112);
+                this.osgrp.drawImage(img_ship_map_mode1, label_x_offset, 48);
                 var nameImg = this.font.getResource("PlayerName2");
-                this.osgrp.drawImage(nameImg, 0, 128);
+                this.osgrp.drawImage(nameImg, 0, 96);
                 var name = this.currentPlayer.getName();
                 var showCursor = (Date.now() % 1000) < 500;
                 var cursorChar = showCursor ? String.fromCharCode(219) : " ";
                 var nameWithCursor = name + cursorChar;
                 var name_x_offset = nameImg.width + 16;
-                this.osgrp.drawImage(this.font.getString(nameWithCursor), name_x_offset, 128);
+                this.osgrp.drawImage(this.font.getString(nameWithCursor), name_x_offset, 96);
+                this.osgrp.drawImage(this.font.getResource("PlayerName3"), 0, 256);
+                this.osgrp.drawImage(this.font.getResource("PlayerName4"), 0, 288);
                 break;
                 
             case kaper.stepType.TITLE_SCREEN:
-                playsound("intro");
                 var img = eval("img_title_" + this.font.getCurrentLocale());
                 this.osgrp.drawImage(img, 12, 0);
                 this.osgrp.drawImage(this.font.getResource("Continue"), 0, 384);
@@ -322,7 +333,8 @@ function kaper()
                 sleepTime = 150 - (this.currentPlayer.getDifficulty() - 2) * 2;
                 this.repaint();
             }
-            else if (this.currentStep == kaper.stepType.INTRO_ENTER_NAME)
+            else if (this.currentStep == kaper.stepType.INTRO_ENTER_NAME ||
+                     this.currentStep == kaper.stepType.INTRO_SOUND)
             {
                 // Keep redrawing while entering name so the cursor can blink.
                 sleepTime = 100;
@@ -405,18 +417,42 @@ function kaper()
                     if (c.toLowerCase() == 'e')
                     {
                         okaper.font.setCurrentLocale(cgafont.localeType.ENGLISH);
-                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
-                        okaper.repaint();
-                    }
-                    else if (c.toLowerCase() == 'd')
-                    {
-                        okaper.font.setCurrentLocale(cgafont.localeType.DANISH);
-                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
+                        okaper.setCurrentStep(kaper.stepType.INTRO_SOUND);
                         okaper.repaint();
                     }
                     else if (c.toLowerCase() == 'c')
                     {
                         okaper.clearHighScore();
+                        okaper.repaint();
+                    }
+                    else if (c.length == 1 && c != 'C')
+                    {
+                        okaper.setCurrentStep(kaper.stepType.INTRO_SOUND);
+                        okaper.repaint();
+                    }
+                    break;
+
+            case kaper.stepType.INTRO_SOUND:
+                    if (c == "F2")
+                    {
+                        toggleGameSound();
+                        okaper.repaint();
+                    }
+                    else if (c == "0")
+                    {
+                        setGameSoundEnabled(false);
+                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
+                        okaper.repaint();
+                    }
+                    else if (c == "1")
+                    {
+                        setGameSoundEnabled(true);
+                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
+                        okaper.repaint();
+                    }
+                    else if (c == "Enter")
+                    {
+                        okaper.setCurrentStep(kaper.stepType.TITLE_SCREEN);
                         okaper.repaint();
                     }
                     break;
@@ -448,6 +484,12 @@ function kaper()
                     break;
                     
             case kaper.stepType.GAME_PLAYING:
+                if (c == "F2")
+                {
+                    toggleGameSound();
+                    okaper.repaint();
+                    break;
+                }
                 switch (okaper.currentAction)
                     {
                         case kaper.actionType.MAP:
@@ -516,6 +558,17 @@ function kaper()
 
         this.currentStep = step;
 
+        if (step == kaper.stepType.TITLE_SCREEN && !this.titleMusicPlayed)
+        {
+            this.titleMusicPlayed = true;
+            playsound("intro");
+        }
+
+        if (step == kaper.stepType.INTRO_WELCOME)
+        {
+            this.titleMusicPlayed = false;
+        }
+
         if (step == kaper.stepType.HIGHSCORE)
         {
             this.trySetHighScore(this.currentPlayer.getScore(), this.currentPlayer.getName());
@@ -537,6 +590,8 @@ function kaper()
         try
         {
             var raw = localStorage.getItem(this.highScoreStorageKey);
+            if (!raw)
+                raw = localStorage.getItem(this.legacyHighScoreStorageKey);
             if (!raw) return;
 
             var parsed = JSON.parse(raw);
@@ -644,4 +699,4 @@ function kaper()
 }
 
 kaper.actionType = { MAP: 0, PROMOTE: 1, MIST: 2, ATTACK: 3, HARBOR: 4, CITY: 5, HELP: 6 };
-kaper.stepType = { INTRO_WELCOME: 0, INTRO_ENTER_NAME: 1, TITLE_SCREEN: 2, GAME_PLAYING: 3, GAME_LOST: 4, HIGHSCORE: 5 };
+kaper.stepType = { INTRO_WELCOME: 0, INTRO_ENTER_NAME: 1, TITLE_SCREEN: 2, GAME_PLAYING: 3, GAME_LOST: 4, HIGHSCORE: 5, INTRO_SOUND: 6 };

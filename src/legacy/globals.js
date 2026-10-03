@@ -45,13 +45,35 @@ var qbasicPlayStrings = {
     flee: "T255O5L32GFEDCBO4AGFEDC"
 };
 
+/** Mirrors DOS LYD: -1 = effects on, 0 = silence (see KAPER.BAS). */
+var gameSoundEnabled = true;
+
 function ensureQbasicAudioUnlocked()
 {
     qbasicPlayer.ensureAudio().catch(function () {});
 }
 
+function setGameSoundEnabled(enabled)
+{
+    gameSoundEnabled = !!enabled;
+}
+
+function toggleGameSound()
+{
+    gameSoundEnabled = !gameSoundEnabled;
+    return gameSoundEnabled;
+}
+
+function isGameSoundEnabled()
+{
+    return gameSoundEnabled;
+}
+
 function playsound(name)
 {
+    if (!gameSoundEnabled)
+        return;
+
     var playString = qbasicPlayStrings[name];
     if (!playString)
         return;

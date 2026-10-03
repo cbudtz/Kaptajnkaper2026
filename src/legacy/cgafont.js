@@ -265,7 +265,7 @@ function cgafont()
     }
 
     // Load resource strings in default language
-    this.setCurrentLocale(cgafont.localeType.ENGLISH);
+    this.setCurrentLocale(cgafont.localeType.DANISH);
     this.loadResources();
 
     // Set default CGA mode
