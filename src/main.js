@@ -5,10 +5,9 @@ import GameScene from './scenes/GameScene.js';
 import { GAME_WIDTH, GAME_HEIGHT } from './config/assets.js';
 import './i18n/index.js';
 import './styles/mobile.css';
+import { initMobileShell } from './input/mobileControls.js';
 
-if ('ontouchstart' in globalThis || navigator.maxTouchPoints > 0) {
-  document.documentElement.classList.add('touch-device');
-}
+initMobileShell();
 
 const config = {
   type: Phaser.AUTO,
