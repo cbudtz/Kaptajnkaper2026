@@ -1,6 +1,7 @@
 import { getMobilePanelForState } from './mobileUiState.js';
 import { MOBILE_LAYOUTS, renderMobileDeck } from './mobileLayouts.js';
 import { bindMobileViewportHandlers, resetMobileViewportZoom } from './mobileViewport.js';
+import { computeMobileLayout } from './mobileLayout.js';
 
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
@@ -16,13 +17,33 @@ export function isMobileShellEnabled() {
 }
 
 function layoutMobileShell() {
-  const vh = window.visualViewport?.height ?? window.innerHeight;
-  const deckHeight = Math.round(Math.min(Math.max(vh * 0.4, 220), 380));
-  document.documentElement.style.setProperty('--mobile-deck-height', `${deckHeight}px`);
+  const vv = window.visualViewport;
+  const viewportWidth = Math.round(vv?.width ?? window.innerWidth);
+  const viewportHeight = Math.round(vv?.height ?? window.innerHeight);
+  const { gameBandHeight, deckHeight } = computeMobileLayout(viewportWidth, viewportHeight);
+
+  const root = document.documentElement;
+  root.style.setProperty('--app-height', `${viewportHeight}px`);
+  root.style.setProperty('--game-band-height', `${gameBandHeight}px`);
+  root.style.setProperty('--mobile-deck-height', `${deckHeight}px`);
+
+  const shell = document.getElementById('app-shell');
+  if (shell && isMobileShellEnabled()) {
+    shell.style.height = `${viewportHeight}px`;
+    shell.style.maxHeight = `${viewportHeight}px`;
+  }
+
+  const gameContainer = document.getElementById('game-container');
+  if (gameContainer && isMobileShellEnabled()) {
+    gameContainer.style.height = `${gameBandHeight}px`;
+    gameContainer.style.maxHeight = `${gameBandHeight}px`;
+    gameContainer.style.flex = '0 0 auto';
+  }
 
   const ui = document.getElementById('mobile-ui');
   if (ui && isMobileShellEnabled()) {
     ui.hidden = false;
+    ui.style.flex = '1 1 auto';
     ui.style.height = `${deckHeight}px`;
     ui.style.minHeight = `${deckHeight}px`;
     ui.style.maxHeight = `${deckHeight}px`;

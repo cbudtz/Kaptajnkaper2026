@@ -41,10 +41,13 @@
         flex-direction: column;
         background: #000028;
         overflow: hidden;
-        height: 100dvh;
+        height: var(--app-height, 100dvh);
+        max-height: var(--app-height, 100dvh);
       }
       #game-container {
-        flex: 1 1 auto;
+        flex: 0 0 auto;
+        height: var(--game-band-height, 55dvh);
+        max-height: var(--game-band-height, 55dvh);
         min-height: 0;
         width: 100%;
       }
