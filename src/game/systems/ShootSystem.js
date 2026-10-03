@@ -1,7 +1,7 @@
 import {
   AttackType,
   CauseOfDeath,
-  CgaFontMode,
+  CgaMode,
   EnemyState,
   ShootState,
 } from '../constants/enums.js';
@@ -38,7 +38,7 @@ export class ShootSystem {
   }
 
   render(view) {
-    view.setFontMode(CgaFontMode.CGA_MODE1);
+    view.setCgaMode(CgaMode.MODE1);
     view.drawImage(TextureKey.SHOOT, 9, 0);
     const x = (this.windDirection / 3) * 20;
     const y = (this.windDirection % 3) * 20;

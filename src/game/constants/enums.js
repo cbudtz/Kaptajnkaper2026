@@ -21,9 +21,9 @@ export const CauseOfDeath = Object.freeze({
 });
 
 /** @see cgafont.modes in legacy/cgafont.js */
-export const CgaFontMode = Object.freeze({
-  CGA_MODE1: 1,
-  CGA_MODE2: 2,
+export const CgaMode = Object.freeze({
+  MODE1: 1,
+  MODE2: 2,
 });
 
 /** @see attack.attackType in legacy/attack.js */

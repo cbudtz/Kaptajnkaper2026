@@ -2,7 +2,7 @@ import {
   AttackOutcome,
   AttackType,
   CauseOfDeath,
-  CgaFontMode,
+  CgaMode,
   GameAction,
 } from '../constants/enums.js';
 import { playSound } from '../audio/playSound.js';
@@ -14,7 +14,9 @@ import { BoardSystem } from './BoardSystem.js';
  * Enemy attack flow (ported from legacy/attack.js).
  */
 export class AttackSystem {
-  /** @param {object} host - Game host (legacy kaper) */
+  /**
+   * @param {import('../host/GameHost.js').GameHost} host
+   */
   constructor(host) {
     this.sunkMen = 0;
 
@@ -31,10 +33,13 @@ export class AttackSystem {
     this.sunkMen = 0;
   }
 
+  /**
+   * @param {import('../view/GameView.js').GameView} view
+   */
   render(view) {
     switch (this.currentAttack) {
       case AttackType.NONE:
-        view.setFontMode(CgaFontMode.CGA_MODE2);
+        view.setCgaMode(CgaMode.MODE2);
         this.host.getMap().render(view);
         view.drawLabel('Attack1', 0, 0);
         view.drawLabel('Attack2', 0, 16);
@@ -51,7 +56,7 @@ export class AttackSystem {
         break;
 
       case AttackType.ATTACK:
-        view.setFontMode(CgaFontMode.CGA_MODE2);
+        view.setCgaMode(CgaMode.MODE2);
         this.host.getMap().render(view);
         view.drawLabel('Attacking1', 0, 0);
         view.drawLabel('Attacking2', 0, 16);
@@ -66,7 +71,7 @@ export class AttackSystem {
         break;
 
       case AttackType.WITHDRAW:
-        view.setFontMode(CgaFontMode.CGA_MODE2);
+        view.setCgaMode(CgaMode.MODE2);
         this.host.getMap().render(view);
         view.drawLabel('Attack6', 0, 16);
         break;
@@ -75,7 +80,7 @@ export class AttackSystem {
         playSound('taps');
         // fall through
       case AttackType.WON_PRIZING:
-        view.setFontMode(CgaFontMode.CGA_MODE1);
+        view.setCgaMode(CgaMode.MODE1);
         view.drawLabel('AttackSurrender1', 0, 0);
         view.drawLabel('AttackSurrender2', 0, 16, this.currentEnemy.getMoney());
         if (this.currentEnemy.getMen() > 1) {
@@ -98,7 +103,7 @@ export class AttackSystem {
 
       case AttackType.WON_SUNK:
         playSound('taps');
-        view.setFontMode(CgaFontMode.CGA_MODE1);
+        view.setCgaMode(CgaMode.MODE1);
         view.drawLabel('AttackSunk1', 0, 0);
         let moreLines = 0;
         if (this.sunkMen > 0) {
@@ -207,7 +212,7 @@ export class AttackSystem {
 
       case AttackType.WON_SUNK:
         this.host.getMap().setCurrentMapDataValue(50);
-        this.resetAttack(AttackType.WON_SUNK);
+        this.resetAttack(AttackOutcome.WON);
         break;
 
       default:

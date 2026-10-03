@@ -2,7 +2,7 @@ import {
   AttackType,
   BoardState,
   CauseOfDeath,
-  CgaFontMode,
+  CgaMode,
 } from '../constants/enums.js';
 import { TextureKey } from '../constants/textureKeys.js';
 import { playSound } from '../audio/playSound.js';
@@ -51,7 +51,7 @@ export class BoardSystem {
   }
 
   render(view) {
-    view.setFontMode(CgaFontMode.CGA_MODE1);
+    view.setCgaMode(CgaMode.MODE1);
 
     view.drawImage(TextureKey.SHIP_BOARD_EN, 372, 30);
     view.drawImage(TextureKey.SHIP_BOARD_DA, 352, this.shipY);
