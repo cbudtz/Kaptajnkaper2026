@@ -1,5 +1,6 @@
 import { GameAction, GameStep, CauseOfDeath, CgaMode } from '../constants/enums.js';
 import { getLabelText } from '../text/getLabelText.js';
+import { normalizeMoveHeadingKey } from '../../input/compassHeading.js';
 
 export class MapSystem {
   /**
@@ -127,6 +128,11 @@ export class MapSystem {
     }
 
     if (!triedtomove) return;
+
+    const headingKey = normalizeMoveHeadingKey(direction);
+    if (headingKey) {
+      this.currentPlayer.setLastMoveHeadingKey(headingKey);
+    }
 
     if (posX >= 1 && posX <= 29 && posY >= 1 && posY <= 14) {
       const mapValue = this.currentMapData[posY - 1][posX - 1];

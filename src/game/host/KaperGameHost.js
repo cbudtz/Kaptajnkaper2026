@@ -60,6 +60,7 @@ export class KaperGameHost {
         this.currentAction === GameAction.ATTACK
           ? getAttackMobileMode(this.attack)
           : undefined,
+      lastMoveHeadingKey: this.player.getLastMoveHeadingKey(),
     };
   }
 

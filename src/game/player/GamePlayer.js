@@ -38,6 +38,8 @@ export class GamePlayer {
     this.prizeMen = 0;
     this.prizeMoney = 0;
     this.deathReason = CauseOfDeath.NOT_YET;
+    /** @type {string | null} numpad key for last map move (1–9, excluding 5) */
+    this.lastMoveHeadingKey = null;
   }
 
   checkForPromotion() {
@@ -202,6 +204,15 @@ export class GamePlayer {
 
   setPosY(y) {
     this.posY = y;
+  }
+
+  getLastMoveHeadingKey() {
+    return this.lastMoveHeadingKey;
+  }
+
+  /** @param {string | null} key */
+  setLastMoveHeadingKey(key) {
+    this.lastMoveHeadingKey = key;
   }
 
   getDeathReason() {

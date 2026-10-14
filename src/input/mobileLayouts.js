@@ -193,7 +193,8 @@ export function createCompassRoseElement() {
     '<span class="mobile-dpad-compass-n" aria-hidden="true">N</span>'
     + '<span class="mobile-dpad-compass-e" aria-hidden="true">Ø</span>'
     + '<span class="mobile-dpad-compass-s" aria-hidden="true">S</span>'
-    + '<span class="mobile-dpad-compass-w" aria-hidden="true">V</span>';
+    + '<span class="mobile-dpad-compass-w" aria-hidden="true">V</span>'
+    + '<span class="mobile-dpad-compass-arrow" aria-hidden="true"></span>';
   return spacer;
 }
 

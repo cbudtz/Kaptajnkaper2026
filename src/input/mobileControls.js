@@ -1,4 +1,5 @@
 import { getMobilePanelForState } from './mobileUiState.js';
+import { updateCompassRoseHeading } from './compassHeading.js';
 import { renderMobileDeck, resolveMobileLayout } from './mobileLayouts.js';
 import { bindMobileViewportHandlers, resetMobileViewportZoom } from './mobileViewport.js';
 import { computeMobileLayout } from './mobileLayout.js';
@@ -6,7 +7,7 @@ import { computeMobileLayout } from './mobileLayout.js';
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
 /** Bump when mobile deck markup/layout changes so cached DOM is rebuilt. */
-const MOBILE_DECK_LAYOUT_VERSION = '3';
+const MOBILE_DECK_LAYOUT_VERSION = '4';
 
 let lastUiPanel = '';
 let lastUiSignature = '';
@@ -215,6 +216,8 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
   }
 
   lastUiPanel = panel;
+
+  updateCompassRoseHeading(deck, uiState.lastMoveHeadingKey);
 
   const hint = document.getElementById('mobile-hint');
   if (hint) {
