@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  COMPASS_ROSE_SVG,
-  NAVIGATION_DPAD,
-  createCompassRoseElement,
-} from '../src/input/mobileLayouts.js';
+import { NAVIGATION_DPAD, createCompassRoseElement } from '../src/input/mobileLayouts.js';
 
 describe('NAVIGATION_DPAD', () => {
   it('matches numpad compass layout with south on bottom center', () => {
@@ -14,9 +10,9 @@ describe('NAVIGATION_DPAD', () => {
     ]);
   });
 
-  it('renders a visible SVG compass in the center cell', () => {
-    expect(COMPASS_ROSE_SVG).toContain('mobile-dpad-compass-svg');
+  it('renders subtle compass labels in the center cell', () => {
     const el = createCompassRoseElement();
-    expect(el.querySelector('.mobile-dpad-compass-svg')).toBeTruthy();
+    expect(el.querySelector('.mobile-dpad-compass-n')?.textContent).toBe('N');
+    expect(el.querySelector('.mobile-dpad-compass-e')?.textContent).toBe('Ø');
   });
 });
