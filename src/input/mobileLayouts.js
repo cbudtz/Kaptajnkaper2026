@@ -185,6 +185,30 @@ const DPAD_LABELS = {
   '9': '↗',
 };
 
+/** Center cell of navigation d-pad (decorative compass rose). */
+export const COMPASS_ROSE_SVG = `<svg class="mobile-dpad-compass-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <circle cx="40" cy="40" r="34" fill="#101080" stroke="#ccccff" stroke-width="3"/>
+  <circle cx="40" cy="40" r="24" fill="none" stroke="#8888ff" stroke-width="1.5" opacity="0.85"/>
+  <line x1="40" y1="10" x2="40" y2="70" stroke="#aaaaff" stroke-width="2"/>
+  <line x1="10" y1="40" x2="70" y2="40" stroke="#aaaaff" stroke-width="2"/>
+  <line x1="18" y1="18" x2="62" y2="62" stroke="#6666cc" stroke-width="1"/>
+  <line x1="62" y1="18" x2="18" y2="62" stroke="#6666cc" stroke-width="1"/>
+  <polygon points="40,8 46,22 34,22" fill="#ffcc44" stroke="#fff8cc" stroke-width="1"/>
+  <text x="40" y="30" text-anchor="middle" fill="#ffee99" font-size="14" font-weight="800" font-family="system-ui,sans-serif">N</text>
+  <text x="54" y="44" text-anchor="middle" fill="#dde" font-size="11" font-weight="700" font-family="system-ui,sans-serif">Ø</text>
+  <text x="40" y="58" text-anchor="middle" fill="#dde" font-size="11" font-weight="700" font-family="system-ui,sans-serif">S</text>
+  <text x="26" y="44" text-anchor="middle" fill="#dde" font-size="11" font-weight="700" font-family="system-ui,sans-serif">V</text>
+  <circle cx="40" cy="40" r="4" fill="#ccccff"/>
+</svg>`;
+
+export function createCompassRoseElement() {
+  const spacer = document.createElement('div');
+  spacer.className = 'mobile-dpad-spacer mobile-dpad-compass';
+  spacer.setAttribute('aria-hidden', 'true');
+  spacer.innerHTML = COMPASS_ROSE_SVG;
+  return spacer;
+}
+
 /** @param {string} panelId */
 export function resolveMobileLayout(panelId) {
   if (panelId === 'play-attack-initial') {
@@ -287,15 +311,7 @@ export function renderMobileDeck(layout, deck) {
     for (const row of layout.dpad) {
       for (const key of row) {
         if (key === null) {
-          const spacer = document.createElement('div');
-          spacer.className = 'mobile-dpad-spacer mobile-dpad-compass';
-          spacer.setAttribute('aria-hidden', 'true');
-          spacer.innerHTML =
-            '<span class="mobile-dpad-compass-n" aria-hidden="true">N</span>'
-            + '<span class="mobile-dpad-compass-e" aria-hidden="true">E</span>'
-            + '<span class="mobile-dpad-compass-s" aria-hidden="true">S</span>'
-            + '<span class="mobile-dpad-compass-w" aria-hidden="true">W</span>';
-          grid.appendChild(spacer);
+          grid.appendChild(createCompassRoseElement());
           continue;
         }
         grid.appendChild(

@@ -19,8 +19,13 @@ test.describe('Mobile play flow', () => {
     const dpad = page.locator('.mobile-dpad-grid');
     await expect(dpad).toBeVisible();
     await expect(dpad.locator('button')).toHaveCount(8);
-    await expect(dpad.locator('.mobile-dpad-compass')).toHaveCount(1);
+    await expect(dpad.locator('.mobile-dpad-compass-svg')).toHaveCount(1);
     await expect(dpad.locator('button[data-key="2"]')).toHaveCount(1);
+
+    const downBox = await dpad.locator('button[data-key="2"]').boundingBox();
+    const compassBox = await dpad.locator('.mobile-dpad-compass').boundingBox();
+    expect(downBox && compassBox).toBeTruthy();
+    expect(downBox.y).toBeGreaterThan(compassBox.y);
 
     const deckBox = await deck.boundingBox();
     const uiBox = await page.locator('#mobile-ui').boundingBox();
