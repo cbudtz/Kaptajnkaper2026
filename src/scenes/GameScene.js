@@ -4,6 +4,7 @@ import { KaperGameHost } from '../game/host/KaperGameHost.js';
 import { PhaserGameView } from '../game/view/PhaserGameView.js';
 import { ensureGameAudioUnlocked } from '../game/audio/playSound.js';
 import { bindMobileControls, refreshMobileUi } from '../input/mobileControls.js';
+import { shouldIgnoreGameKeyboardForMobileName } from '../input/mobileNameInput.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -45,6 +46,9 @@ export default class GameScene extends Phaser.Scene {
     const getState = () => this.host.getMobileUiState();
 
     const onKey = (event) => {
+      if (shouldIgnoreGameKeyboardForMobileName(getState().step, document.activeElement)) {
+        return;
+      }
       ensureGameAudioUnlocked();
       this.host.handleKey(event);
       this.host.render(this.view);
