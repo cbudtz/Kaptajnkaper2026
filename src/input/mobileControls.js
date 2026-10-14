@@ -6,7 +6,7 @@ import { computeMobileLayout } from './mobileLayout.js';
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
 /** Bump when mobile deck markup/layout changes so cached DOM is rebuilt. */
-const MOBILE_DECK_LAYOUT_VERSION = '2';
+const MOBILE_DECK_LAYOUT_VERSION = '3';
 
 let lastUiPanel = '';
 let lastUiSignature = '';
