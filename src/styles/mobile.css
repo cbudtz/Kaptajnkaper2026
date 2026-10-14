@@ -256,6 +256,35 @@ html.touch-device #mobile-hint.visible {
   transform: translateY(-50%);
 }
 
+.mobile-dpad-compass-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -7px 0 0 -5px;
+  transform: rotate(var(--compass-heading-deg, 0deg));
+  transform-origin: 50% 85%;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.mobile-dpad-compass-arrow::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid #ffcc66;
+}
+
+.mobile-dpad-compass.has-heading .mobile-dpad-compass-arrow {
+  opacity: 0.92;
+}
+
 .mobile-btn {
   flex: 1 1 0;
   min-width: 0;

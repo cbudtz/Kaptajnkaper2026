@@ -1,6 +1,6 @@
 import { GameStep, GameAction } from '../game/constants/enums.js';
 
-/** @typedef {{ step: number, action: number, cityMode?: string, attackMode?: string }} GameUiState */
+/** @typedef {{ step: number, action: number, cityMode?: string, attackMode?: string, lastMoveHeadingKey?: string | null }} GameUiState */
 
 /**
  * Which mobile control panel to show for the current game state.

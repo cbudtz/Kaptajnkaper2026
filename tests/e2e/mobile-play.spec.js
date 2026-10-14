@@ -34,6 +34,7 @@ test.describe('Mobile play flow', () => {
 
     const up = page.locator('.mobile-dpad-grid button[data-key="8"]');
     await up.click();
+    await expect(page.locator('.mobile-dpad-compass.has-heading')).toBeVisible();
     await up.click();
     await expect(page.locator('#game-container canvas')).toBeVisible();
   });

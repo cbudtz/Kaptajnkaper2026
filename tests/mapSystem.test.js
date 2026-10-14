@@ -32,6 +32,7 @@ describe('MapSystem', () => {
     host.player.setPosY(10);
     map.moveShip('6');
     expect(host.player.getPosX()).toBe(11);
+    expect(host.player.getLastMoveHeadingKey()).toBe('6');
   });
 
   it('penalizes reparation when hitting land', () => {

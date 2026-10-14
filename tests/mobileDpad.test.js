@@ -14,5 +14,6 @@ describe('NAVIGATION_DPAD', () => {
     const el = createCompassRoseElement();
     expect(el.querySelector('.mobile-dpad-compass-n')?.textContent).toBe('N');
     expect(el.querySelector('.mobile-dpad-compass-e')?.textContent).toBe('Ø');
+    expect(el.querySelector('.mobile-dpad-compass-arrow')).toBeTruthy();
   });
 });
