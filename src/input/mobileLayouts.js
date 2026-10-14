@@ -4,6 +4,13 @@ import { getLabelText } from '../game/text/getLabelText.js';
 
 /** @typedef {{ caption?: string, rows?: MobileButton[][], toolbar?: MobileButton[], dpad?: (string|null)[][] }} MobileLayout */
 
+/** Numpad-style compass: 7–9 top, 4/6 middle, 1–3 bottom; center is decorative only. */
+export const NAVIGATION_DPAD = [
+  ['7', '8', '9'],
+  ['4', null, '6'],
+  ['1', '2', '3'],
+];
+
 /** @type {Record<string, MobileLayout>} */
 export const MOBILE_LAYOUTS = {
   intro: {
@@ -43,11 +50,7 @@ export const MOBILE_LAYOUTS = {
       { key: 'F2', label: 'Lyd' },
       { key: 'Escape', label: 'Afslut' },
     ],
-    dpad: [
-      ['7', '8', '9'],
-      ['4', '2', '6'],
-      ['1', null, '3'],
-    ],
+    dpad: NAVIGATION_DPAD,
   },
   'play-harbor': {
     caption: 'Styr ind i havnen (venstre / højre)',
@@ -80,11 +83,7 @@ export const MOBILE_LAYOUTS = {
       { key: 'f', label: 'Ild!' },
       { key: '0', label: 'Tilbage' },
     ],
-    dpad: [
-      ['7', '8', '9'],
-      ['4', '2', '6'],
-      ['1', null, '3'],
-    ],
+    dpad: NAVIGATION_DPAD,
   },
   'play-attack-board': {
     rows: [
@@ -220,11 +219,7 @@ export function resolveMobileLayout(panelId) {
         { key: fire, label: 'Ild!' },
         { key: withdraw, label: 'Tilbage' },
       ],
-      dpad: [
-        ['7', '8', '9'],
-        ['4', '2', '6'],
-        ['1', null, '3'],
-      ],
+      dpad: NAVIGATION_DPAD,
     };
   }
   if (panelId === 'play-attack-board') {
@@ -293,8 +288,13 @@ export function renderMobileDeck(layout, deck) {
       for (const key of row) {
         if (key === null) {
           const spacer = document.createElement('div');
-          spacer.className = 'mobile-dpad-spacer';
+          spacer.className = 'mobile-dpad-spacer mobile-dpad-compass';
           spacer.setAttribute('aria-hidden', 'true');
+          spacer.innerHTML =
+            '<span class="mobile-dpad-compass-n" aria-hidden="true">N</span>'
+            + '<span class="mobile-dpad-compass-e" aria-hidden="true">E</span>'
+            + '<span class="mobile-dpad-compass-s" aria-hidden="true">S</span>'
+            + '<span class="mobile-dpad-compass-w" aria-hidden="true">W</span>';
           grid.appendChild(spacer);
           continue;
         }

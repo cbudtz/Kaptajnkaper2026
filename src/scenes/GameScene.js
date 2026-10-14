@@ -45,6 +45,10 @@ export default class GameScene extends Phaser.Scene {
     const getState = () => this.host.getMobileUiState();
 
     const onKey = (event) => {
+      const nameInput = document.getElementById('mobile-name-input');
+      if (nameInput && document.activeElement === nameInput) {
+        return;
+      }
       ensureGameAudioUnlocked();
       this.host.handleKey(event);
       this.host.render(this.view);
