@@ -5,6 +5,9 @@ import { computeMobileLayout } from './mobileLayout.js';
 
 /** @typedef {import('./mobileUiState.js').GameUiState} GameUiState */
 
+/** Bump when mobile deck markup/layout changes so cached DOM is rebuilt. */
+const MOBILE_DECK_LAYOUT_VERSION = '2';
+
 let lastUiPanel = '';
 let lastUiSignature = '';
 let repeatTimer = null;
@@ -173,7 +176,7 @@ export function syncMobileUi(getState, nameBlock, nameInput, playerBridge) {
 
   const uiState = getState();
   const panel = getMobilePanelForState(uiState);
-  const uiSignature = `${panel}:${uiState.attackMode ?? ''}:${uiState.cityMode ?? ''}:${uiState.step}:${uiState.action}`;
+  const uiSignature = `${MOBILE_DECK_LAYOUT_VERSION}:${panel}:${uiState.attackMode ?? ''}:${uiState.cityMode ?? ''}:${uiState.step}:${uiState.action}`;
   const compactPanel =
     panel === 'play-map'
     || panel === 'play-harbor'
