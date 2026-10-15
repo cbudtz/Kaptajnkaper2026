@@ -16,6 +16,11 @@ import {
 import { playSound } from '../audio/playSound.js';
 import { getCityMobileMode } from '../../input/cityMobileMode.js';
 import { getAttackMobileMode } from '../../input/attackMobileMode.js';
+import {
+  clearSavedGame,
+  loadGameFromLocalStorage,
+  scheduleSaveGame,
+} from '../persist/gameSave.js';
 
 export class KaperGameHost {
   constructor() {
@@ -40,6 +45,7 @@ export class KaperGameHost {
     this.help = new HelpSystem(this);
 
     this.loadHighScore();
+    this.restoredFromSave = loadGameFromLocalStorage(this);
   }
 
   getCurrentPlayer() {
@@ -82,6 +88,9 @@ export class KaperGameHost {
     if (step === GameStep.INTRO_WELCOME) {
       this.titleMusicPlayed = false;
     }
+    if (step === GameStep.GAME_LOST || step === GameStep.HIGHSCORE) {
+      clearSavedGame();
+    }
     if (step === GameStep.HIGHSCORE) {
       this.trySetHighScore(this.player.getScore(), this.player.getName());
     }
@@ -107,6 +116,7 @@ export class KaperGameHost {
 
   markDirty() {
     this.needsRender = true;
+    scheduleSaveGame(this);
   }
 
   /** Legacy board/attack code expects repaint(); same as markDirty(). */
